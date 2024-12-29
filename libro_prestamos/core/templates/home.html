@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <!-- Título principal -->
+    <h1 class="display-4">¡Bienvenido a la Biblioteca Comunitaria!</h1>
+    <p class="lead text-muted">Explora, comparte y conecta a través de los libros.</p>
+
+    <!-- Sección destacada -->
+    <div class="row mt-5">
+        <!-- Libros -->
+        <div class="col-md-4">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Explora Libros</h5>
+                    <p class="card-text">Descubre libros en la biblioteca de tus amigos y comunidades.</p>
+                    <a href="{% url 'listar_libros' %}" class="btn btn-primary">Ver Libros</a>
+                </div>
+            </div>
+        </div>
+        <!-- Préstamos -->
+        <div class="col-md-4">
+            <div class="card border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">Gestiona Préstamos</h5>
+                    <p class="card-text">Lleva un registro de los libros que prestaste y pediste.</p>
+                    <a href="{% url 'listar_prestamos' %}" class="btn btn-secondary">Ver Préstamos</a>
+                </div>
+            </div>
+        </div>
+        <!-- Comunidades -->
+        <div class="col-md-4">
+            <div class="card border-success">
+                <div class="card-body">
+                    <h5 class="card-title">Únete a Comunidades</h5>
+                    <p class="card-text">Conéctate con lectores, comparte libros y participa en actividades.</p>
+                    <a href="#" class="btn btn-success">Ver Comunidades</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invitación a registrarse -->
+    {% if not user.is_authenticated %}
+    <div class="mt-5">
+        <p class="lead">¿No tienes cuenta aún?</p>
+        <a href="{% url 'registro' %}" class="btn btn-lg btn-primary">Regístrate ahora</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

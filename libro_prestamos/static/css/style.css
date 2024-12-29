@@ -1,0 +1,169 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9; /* Fondo claro y limpio */
+    color: #333; /* Texto oscuro para buena legibilidad */
+}
+
+/* Encabezados */
+h1 {
+    font-size: 2em;
+    color: #2c3e50; /* Azul oscuro */
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.5em;
+    color: #34495e; /* Azul ligeramente más claro */
+    margin-bottom: 0.5em;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 5px; /* Bordes redondeados */
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+table thead {
+    background-color: #f4f6f8; /* Encabezados más claros */
+    color: #333; /* Texto oscuro */
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Separadores sutiles */
+}
+
+table tbody tr:hover {
+    background-color: #f7f9fa; /* Fondo al pasar el mouse */
+}
+
+/* Enlaces */
+a {
+    text-decoration: none;
+    color: #3498db; /* Azul vibrante */
+}
+
+a:hover {
+    color: #2980b9; /* Azul más oscuro */
+    text-decoration: underline;
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #3498db; /* Azul vibrante */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980b9; /* Azul más oscuro */
+}
+
+/* Formularios */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaciado entre campos */
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+form input, form select, form textarea {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form input:focus, form select:focus, form textarea:focus {
+    border-color: #3498db; /* Azul vibrante al enfocar */
+    outline: none;
+}
+
+/* Navegación */
+.navbar {
+ /*   background-color: #385d82; /* Azul oscuro */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+
+.navbar a {
+/*    color: #ecf0f1; /* Blanco tenue */
+    margin: 0 10px;
+    font-size: 1em;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: #bdc3c7; /* Gris claro al pasar el mouse */
+}
+
+/* Paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #3498db;
+    background-color: #f4f6f8;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #3498db;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    table, form {
+        width: 100%;
+    }
+
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+}

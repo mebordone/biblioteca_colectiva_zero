@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="{% url 'home' %}">Sistema de Libros</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+            <!-- Libros -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="librosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Libros
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="librosDropdown">
+                    <li><a class="dropdown-item" href="{% url 'listar_libros' %}">Listar Libros</a></li>
+                    <li><a class="dropdown-item" href="{% url 'listar_mis_libros' %}">Listar Mis Libros</a></li>
+                    <li><a class="dropdown-item" href="{% url 'cargar_libro' %}">Cargar Libros</a></li>
+                </ul>
+            </li>
+            <!-- Préstamos -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="prestamosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Préstamos
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="prestamosDropdown">
+                    <li><a class="dropdown-item" href="{% url 'listar_prestamos' %}">Listar Mis Préstamos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'historial_prestamos' %}">Mi Historial de Préstamos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'crear_prestamo' %}">Prestar Libro</a></li>
+                </ul>
+            </li>
+            <!-- Comunidades -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="comunidadesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Comunidades
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="comunidadesDropdown">
+                    <li><a class="dropdown-item" href="#">Listar Mis Comunidades</a></li>
+                    <li><a class="dropdown-item" href="#">Buscar Comunidades</a></li>
+                    <li><a class="dropdown-item" href="#">Crear Comunidad</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Usuario -->
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="usuarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioDropdown">
+                        <li><a class="dropdown-item" href="{% url 'perfil' %}">Perfil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registrarme</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

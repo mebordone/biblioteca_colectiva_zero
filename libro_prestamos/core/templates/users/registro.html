@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-5">Crear una cuenta</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <h4>Información de usuario</h4>
+        {{ user_form.as_p }}
+        <h4>Información del perfil</h4>
+        {{ perfil_form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Registrar</button>
+    </form>
+</div>
+{% endblock %}

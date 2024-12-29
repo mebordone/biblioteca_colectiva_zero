@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Libros Prestados</h1>
+    {% if prestamos %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Libro</th>
+                    <th>Prestatario</th>
+                    <th>Fecha de Préstamo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prestamo in prestamos %}
+                    <tr>
+                        <td>{{ prestamo.libro.nombre }}</td>
+                        <td>{{ prestamo.prestatario.username }}</td>
+                        <td>{{ prestamo.fecha_prestamo }}</td>
+                        <td>
+                            {% if not prestamo.devuelto %}
+                                <form method="POST" action="{% url 'marcar_devuelto' prestamo.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Marcar como Devuelto
+                                    </button>
+                                </form>
+                            {% else %}
+                                <span class="text-muted">Devuelto</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes libros prestados actualmente.</p>
+    {% endif %}
+</div>
+{% endblock %}

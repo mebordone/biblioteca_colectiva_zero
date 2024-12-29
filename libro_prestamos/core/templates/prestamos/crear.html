@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Préstamo{% endblock %}
+
+{% block content %}
+    <h1>Crear Préstamo</h1>
+    <form method="post">
+        {% csrf_token %}
+        <!-- Selección del libro -->
+        <div class="mb-3">
+            <label for="libro" class="form-label">Selecciona tu Libro</label>
+            <select id="libro" name="libro" class="form-control">
+                {% for libro in libros %}
+                    <option value="{{ libro.id }}">{{ libro.nombre }} - {{ libro.autor }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- Selección del prestatario -->
+        <div class="mb-3">
+            <label for="prestatario" class="form-label">Selecciona un Usuario</label>
+            <select id="prestatario" name="prestatario" class="form-control">
+                {% for usuario in usuarios %}
+                    <option value="{{ usuario.username }}">{{ usuario.username }} - {{ usuario.first_name }} {{ usuario.last_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Confirmar Préstamo</button>
+    </form>
+{% endblock %}
+

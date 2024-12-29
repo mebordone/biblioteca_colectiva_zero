@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Cargar Libro{% endblock %}
+
+{% block content %}
+    <h1>Cargar un Nuevo Libro</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+{% endblock %}

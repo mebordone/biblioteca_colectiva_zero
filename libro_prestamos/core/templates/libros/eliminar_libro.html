@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Libro{% endblock %}
+
+{% block content %}
+<h1>Eliminar "{{ libro.nombre }}"</h1>
+<p>¿Estás seguro de que deseas eliminar este libro? Esta acción no se puede deshacer.</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="{% url 'libro_detalle' libro.id %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
