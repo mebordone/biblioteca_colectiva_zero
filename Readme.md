@@ -90,7 +90,13 @@ Desarrollar un sistema para gestionar préstamos de libros físicos entre usuari
 
 ### **Release 2: Gestión de Inventario a Gran Escala**
 #### **Funcionalidades principales:**
-1. **Carga masiva de libros:**
+
+1. **Pedidos de Préstamo:**
+   - Permitir que los usuarios soliciten préstamos de libros a otros usuarios.
+   - Los usuarios pueden ver y aceptar o rechazar solicitudes de préstamo.
+   - Si el prestador acepta la solicitud, se visualizan los datos de los usuarios involucrados.
+   
+2. **Carga masiva de libros:**
    - Permitir que los usuarios suban un archivo Excel con información de varios libros.
    - Validar datos del archivo y cargar los libros asociados al usuario.
 
