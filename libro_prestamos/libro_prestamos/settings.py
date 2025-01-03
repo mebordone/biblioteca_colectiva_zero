@@ -131,7 +131,12 @@ AUTH_PASSWORD_VALIDATORS = []
 # Ruta donde se encuentran los archivos estáticos
 STATIC_URL = '/static/'
 
-# Ruta para los archivos cargados (en producción, utiliza un servidor separado)
+import os
+
+# Directorio donde se almacenarán los archivos estáticos al ejecutar collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Directorios adicionales para buscar archivos estáticos durante el desarrollo
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Carpeta "static" en el directorio raíz del proyecto
+    os.path.join(BASE_DIR, 'static'),  # Asegúrate de que esta carpeta existe
 ]
