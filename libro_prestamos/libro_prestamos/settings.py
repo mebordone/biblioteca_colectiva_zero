@@ -135,8 +135,3 @@ import os
 
 # Directorio donde se almacenarán los archivos estáticos al ejecutar collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-# Directorios adicionales para buscar archivos estáticos durante el desarrollo
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Asegúrate de que esta carpeta existe
-]
