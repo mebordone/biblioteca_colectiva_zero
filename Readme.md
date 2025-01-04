@@ -95,7 +95,16 @@ Desarrollar un sistema para gestionar préstamos de libros físicos entre usuari
    - Permitir que los usuarios soliciten préstamos de libros a otros usuarios.
    - Los usuarios pueden ver y aceptar o rechazar solicitudes de préstamo.
    - Si el prestador acepta la solicitud, se visualizan los datos de los usuarios involucrados.
-   
+
+#### **Tareas técnicas:**
+- Implementar la lógica para manejar solicitudes de préstamo y aceptación/rechazo.
+
+#### **Meta de entrega:** 
+   - Los usuarios pueden solicitar préstamos de libros y contactar a otros usuarios.
+
+---
+
+### **Release 3: Gestión Avanzada de Préstamos**
 2. **Carga masiva de libros:**
    - Permitir que los usuarios suban un archivo Excel con información de varios libros.
    - Validar datos del archivo y cargar los libros asociados al usuario.
@@ -108,28 +117,6 @@ Desarrollar un sistema para gestionar préstamos de libros físicos entre usuari
 
 #### **Meta de entrega:**  
 Facilitar la carga masiva de libros, optimizando la experiencia para usuarios con grandes inventarios.
-
----
-
-### **Release 3: Gestión Avanzada de Préstamos**
-#### **Funcionalidades principales:**
-1. **Flujo de solicitudes de préstamo:**
-   - Un usuario solicita un libro.
-   - El propietario del libro puede aceptar o rechazar la solicitud.
-   - Registro del estado del préstamo (pendiente, aceptado, prestado, devuelto).
-
-2. **Estados del libro:**
-   - Añadir el atributo `estado` a los libros (disponible/no disponible/prestado).
-   - Modificar la interfaz para que los usuarios gestionen manualmente la disponibilidad de sus libros.
-
-3. **Historial de préstamos:**
-   - Permitir a los usuarios consultar libros prestados y recibidos.
-
-#### **Tareas técnicas:**
-- Actualizar el modelo de Préstamo con estados.
-- Agregar la lógica de flujo de solicitudes y aceptación.
-- Diseñar interfaces para el flujo de solicitudes.
-- Implementar vistas para historial de préstamos.
 
 #### **Meta de entrega:** Sistema robusto que permite gestionar solicitudes de préstamo con estados claros.
 
