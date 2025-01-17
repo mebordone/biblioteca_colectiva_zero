@@ -9,6 +9,7 @@
 <p><strong>ISBN:</strong> {{ libro.isbn }}</p>
 <p><strong>Propietario:</strong> {{ libro.propietario }}</p>
 <p><strong>Estado:</strong> {{ libro.estado }}</p>
+<p><strong>Descripción:</strong> {{ libro.descripcion }}</p>
 
 <!-- Opciones para el propietario -->
 {% if request.user == libro.propietario %}
