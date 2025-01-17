@@ -24,6 +24,7 @@ class Libro(models.Model):
     isbn = models.CharField(max_length=13, unique=True, blank=True, null=True)
     propietario = models.ForeignKey(User, on_delete=models.CASCADE)
     estado = models.CharField(max_length=15, choices=ESTADOS, default='disponible')
+    descripcion = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return f"{self.nombre} - {self.autor}"
