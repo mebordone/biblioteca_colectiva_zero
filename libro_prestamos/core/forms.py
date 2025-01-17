@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class LibroForm(forms.ModelForm):
     class Meta:
         model = Libro
-        fields = ['nombre', 'autor', 'editorial', 'isbn']
+        fields = ['nombre', 'autor', 'editorial', 'isbn','descripcion']
         widgets = {
             'comentarios': forms.Textarea(attrs={'rows': 3}),
         }
