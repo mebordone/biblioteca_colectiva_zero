@@ -122,7 +122,23 @@ Facilitar la carga masiva de libros, optimizando la experiencia para usuarios co
 
 ---
 
-### **Release 4: Notificaciones**
+### **Release 3: Gestión Avanzada de Busquedas**
+#### **Funcionalidades principales:**
+
+1. **Filtros:**
+   - Permitir filtros por ciudad, pais, tags en la busqueda.
+
+#### **Tareas técnicas:**
+- Implementar uso de tags
+- Implementar filtros en la vista de busqueda.
+- Ver libros de usuario
+
+#### **Meta de entrega:** 
+   - Los usuarios tienen una metodo mas granular para buscar libros.
+
+---
+
+### **Release 5: Notificaciones**
 #### **Funcionalidades principales:**
 1. **Notificaciones automáticas:**
    - Enviar notificaciones internas cuando se haga una solicitud de préstamo o se actualice su estado.
@@ -136,7 +152,7 @@ Facilitar la carga masiva de libros, optimizando la experiencia para usuarios co
 
 ---
 
-### **Release 5: Integración de Comunidades**
+### **Release 6: Integración de Comunidades**
 #### **Funcionalidades principales:**
 1. **Gestión de comunidades:**
    - Crear, unirse y gestionar comunidades.
