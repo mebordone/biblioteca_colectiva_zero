@@ -4,30 +4,39 @@
 <div class="container mt-4">
     <h1>Libros Prestados</h1>
     {% if prestamos %}
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>Libro</th>
                     <th>Prestatario</th>
                     <th>Fecha de Préstamo</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for prestamo in prestamos %}
                     <tr>
-                        <td>{{ prestamo.libro.nombre }}</td>
+                        <td><strong>{{ prestamo.libro.nombre }}</strong><br><small class="text-muted">{{ prestamo.libro.autor }}</small></td>
                         <td>{{ prestamo.prestatario.username }}</td>
-                        <td>{{ prestamo.fecha_prestamo }}</td>
+                        <td>{{ prestamo.fecha_prestamo|date:"d/m/Y" }}</td>
+                        <td>
+                            {% if prestamo.devuelto %}
+                                <span class="badge bg-success"><i class="bi bi-check-circle"></i> Devuelto</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark"><i class="bi bi-clock"></i> Activo</span>
+                            {% endif %}
+                        </td>
                         <td>
                             {% if not prestamo.devuelto %}
-                                <form method="POST" action="{% url 'marcar_devuelto' prestamo.id %}">
+                                <form method="POST" action="{% url 'marcar_devuelto' prestamo.id %}" class="d-inline">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-success btn-sm">
-                                        Marcar como Devuelto
+                                        <i class="bi bi-check-circle"></i> Marcar como Devuelto
                                     </button>
                                 </form>
                             {% else %}
-                                <span class="text-muted">Devuelto</span>
+                                <span class="text-muted"><i class="bi bi-check2-all"></i> Completado</span>
                             {% endif %}
                         </td>
                     </tr>

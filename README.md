@@ -1,6 +1,6 @@
 **Resumen del Proyecto: Sistema de Préstamos de Libros Físicos**  
 
-El sistema tiene como objetivo facilitar la gestión de préstamos de libros físicos entre personas, promoviendo la colaboración y el intercambio dentro de comunidades. Los usuarios pueden gestionar sus propios libros, registrar préstamos y, en etapas avanzadas, interactuar en comunidades para compartir recursos de manera eficiente.
+El sistema tiene como objetivo facilitar la gestión de préstamos de libros físicos entre personas, promoviendo la colaboración y el intercambio dentro de comunidades. Los usuarios pueden gestionar sus propios libros, registrar préstamos y, en etapas avanzadas, interactuar en comunidades para compartir recursos de manera eficiente.  
 
 ---
 
@@ -95,7 +95,7 @@ El modelo ha sido optimizado para mantenibilidad y simplicidad, priorizando la f
 2. **Gestión de Libros:**  
    - Carga manual individual de libros.
    - **Carga masiva mediante archivo Excel** (Release 2 - ✅ Implementado).
-   - Actualización de estado (disponible, no disponible, prestado).
+   - Actualización de estado (disponible, no disponible, prestado).  
    - Edición y eliminación de libros propios.  
 
 3. **Gestión de Préstamos:**  
@@ -121,7 +121,7 @@ Desarrollar un sistema para gestionar préstamos de libros físicos entre usuari
 
 ---
 
-### **Release 1: Mínimo Producto Viable (MVP)**
+### **Release 1: Mínimo Producto Viable (MVP)** - **COMPLETADO**
 #### **Funcionalidades principales:**
 1. **Gestión de Usuarios:**
    - Registro e inicio de sesión.
@@ -148,7 +148,7 @@ Desarrollar un sistema para gestionar préstamos de libros físicos entre usuari
 
 ---
 
-### **Release 2: Gestión de Inventario a Gran Escala** ✅ **COMPLETADO**
+### **Release 2: Gestión de Inventario a Gran Escala** - **COMPLETADO**
 
 #### **Funcionalidades implementadas:**
 1. **Carga masiva de libros:**
@@ -158,13 +158,13 @@ Desarrollar un sistema para gestionar préstamos de libros físicos entre usuari
    - Procesamiento en lote con feedback detallado de resultados.
 
 #### **Características técnicas:**
-- ✅ Implementada funcionalidad para procesar archivos Excel utilizando **`openpyxl`**.
-- ✅ Interfaz completa para subir archivos y visualizar el estado del procesamiento.
-- ✅ Validación de datos del archivo (campos obligatorios: nombre y autor).
-- ✅ Manejo robusto de errores (libros duplicados, datos faltantes, formato incorrecto).
-- ✅ Detección flexible de columnas (case-insensitive, con/sin acentos).
-- ✅ Generación de plantilla Excel descargable con ejemplos.
-- ✅ Reporte detallado de resultados: libros creados, duplicados y errores por fila.
+- Implementada funcionalidad para procesar archivos Excel utilizando **`openpyxl`**.
+- Interfaz completa para subir archivos y visualizar el estado del procesamiento.
+- Validación de datos del archivo (campos obligatorios: nombre y autor).
+- Manejo robusto de errores (libros duplicados, datos faltantes, formato incorrecto).
+- Detección flexible de columnas (case-insensitive, con/sin acentos).
+- Generación de plantilla Excel descargable con ejemplos.
+- Reporte detallado de resultados: libros creados, duplicados y errores por fila.
 
 #### **Estructura del Excel:**
 - **Columnas obligatorias:** Nombre, Autor

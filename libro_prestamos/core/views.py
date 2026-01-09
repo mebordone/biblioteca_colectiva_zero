@@ -53,7 +53,18 @@ def cargar_libro(request):
 
 def libro_detalle(request, id):
     libro = get_object_or_404(Libro, id=id)
-    return render(request, 'libros/libro_detalle.html', {'libro': libro})
+    # Obtener préstamo activo si el libro está prestado
+    prestamo_activo = None
+    if libro.estado == 'prestado':
+        prestamo_activo = Prestamo.objects.filter(
+            libro=libro,
+            devuelto=False
+        ).select_related('prestatario').first()
+    
+    return render(request, 'libros/libro_detalle.html', {
+        'libro': libro,
+        'prestamo_activo': prestamo_activo
+    })
 
 @login_required
 def editar_libro(request, id):

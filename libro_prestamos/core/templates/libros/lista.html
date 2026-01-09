@@ -17,28 +17,44 @@
     <!-- Tabla de libros -->
     <table class="table">
         <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Autor</th>
-                <th>Propietario</th>
-                <th>Ciudad</th>
-                <th>País</th>
-                <th>Estado</th>
-            </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Autor</th>
+                        <th>Propietario</th>
+                        <th>Ciudad</th>
+                        <th>País</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
         </thead>
         <tbody>
             {% for libro in libros %}
                 <tr>
-                    <td><a href="ver/{{ libro.id }}">{{ libro.nombre }}</a></td>
+                    <td><a href="{% url 'libro_detalle' libro.id %}" class="text-decoration-none">{{ libro.nombre }}</a></td>
                     <td>{{ libro.autor }}</td>
                     <td>{{ libro.propietario.username }}</td>
                     <td>{{ libro.propietario.perfil.ciudad }}</td>
                     <td>{{ libro.propietario.perfil.pais }}</td>
-                    <td>{{ libro.estado }}</td>
+                    <td>
+                        {% if libro.estado == 'disponible' %}
+                            <span class="badge bg-success"><i class="bi bi-check-circle"></i> Disponible</span>
+                        {% elif libro.estado == 'prestado' %}
+                            <span class="badge bg-warning text-dark"><i class="bi bi-clock"></i> Prestado</span>
+                        {% else %}
+                            <span class="badge bg-secondary"><i class="bi bi-x-circle"></i> No disponible</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user == libro.propietario %}
+                            <a href="{% url 'editar_libro' libro.id %}" class="btn btn-sm btn-outline-primary" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="5" class="text-center">No hay libros disponibles.</td>
+                    <td colspan="7" class="text-center">No hay libros disponibles.</td>
                 </tr>
             {% endfor %}
         </tbody>
