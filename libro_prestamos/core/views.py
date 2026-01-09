@@ -9,7 +9,37 @@ from django.contrib import messages
 from .utils import procesar_excel_libros, generar_plantilla_excel
 
 def home(request):
-    return render(request, 'home.html')
+    context = {}
+    if request.user.is_authenticated:
+        # Estadísticas del usuario
+        mis_libros = Libro.objects.filter(propietario=request.user)
+        total_libros = mis_libros.count()
+        libros_disponibles = mis_libros.filter(estado='disponible').count()
+        
+        # Préstamos activos (libros que el usuario prestó y aún no se devolvieron)
+        prestamos_activos = Prestamo.objects.filter(
+            prestador=request.user,
+            devuelto=False
+        ).count()
+        
+        # Préstamos recibidos activos (libros que el usuario recibió prestados)
+        prestamos_recibidos = Prestamo.objects.filter(
+            prestatario=request.user,
+            devuelto=False
+        ).count()
+        
+        # Últimos libros agregados (opcional)
+        ultimos_libros = mis_libros.order_by('-id')[:5]
+        
+        context = {
+            'total_libros': total_libros,
+            'libros_disponibles': libros_disponibles,
+            'prestamos_activos': prestamos_activos,
+            'prestamos_recibidos': prestamos_recibidos,
+            'ultimos_libros': ultimos_libros,
+        }
+    
+    return render(request, 'home.html', context)
 
 # Libros
 from django.core.paginator import Paginator
@@ -123,15 +153,39 @@ def crear_prestamo(request):
 
 @login_required
 def listar_prestamos(request):
-    # Obtener los préstamos de libros prestados por el usuario actual
-    prestamos = Prestamo.objects.filter(prestador=request.user, devuelto=False).select_related('libro', 'prestatario')
-    return render(request, 'prestamos/listar_prestamos.html', {'prestamos': prestamos})
+    # Préstamos realizados (libros que yo presté)
+    prestamos_realizados = Prestamo.objects.filter(
+        prestador=request.user,
+        devuelto=False
+    ).select_related('libro', 'prestatario')
+    
+    # Préstamos recibidos (libros que recibí prestados)
+    prestamos_recibidos = Prestamo.objects.filter(
+        prestatario=request.user,
+        devuelto=False
+    ).select_related('libro', 'prestador')
+    
+    return render(request, 'prestamos/listar_prestamos.html', {
+        'prestamos_realizados': prestamos_realizados,
+        'prestamos_recibidos': prestamos_recibidos,
+    })
 
 @login_required
 def historial_prestamos(request):
-    # Obtener los préstamos de libros prestados por el usuario actual
-    prestamos = Prestamo.objects.filter(prestador=request.user).select_related('libro', 'prestatario')
-    return render(request, 'prestamos/listar_prestamos.html', {'prestamos': prestamos})
+    # Historial de préstamos realizados (todos, incluyendo devueltos)
+    historial_realizados = Prestamo.objects.filter(
+        prestador=request.user
+    ).select_related('libro', 'prestatario').order_by('-fecha_prestamo')
+    
+    # Historial de préstamos recibidos (todos, incluyendo devueltos)
+    historial_recibidos = Prestamo.objects.filter(
+        prestatario=request.user
+    ).select_related('libro', 'prestador').order_by('-fecha_prestamo')
+    
+    return render(request, 'prestamos/historial_prestamos.html', {
+        'historial_realizados': historial_realizados,
+        'historial_recibidos': historial_recibidos,
+    })
 
 @login_required
 def marcar_devuelto(request, prestamo_id):
