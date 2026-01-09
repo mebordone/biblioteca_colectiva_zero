@@ -13,13 +13,38 @@
             background-color: #f8f9fa;
             min-height: 100vh;
         }
+        .hover-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
     </style>
 </head>
 <body>
     <!-- Barra de navegación -->
     {% include "navbar.html" %}
     
-    <!-- Mensajes -->
+    <!-- Contenedor para Toasts -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="toast align-items-center text-white bg-{% if message.tags == 'success' %}success{% elif message.tags == 'error' or message.tags == 'danger' %}danger{% elif message.tags == 'warning' %}warning{% else %}info{% endif %} border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi bi-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' or message.tags == 'danger' %}exclamation-triangle{% elif message.tags == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    
+    <!-- Mensajes fallback (por si JavaScript está deshabilitado) -->
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
@@ -42,5 +67,15 @@
 
     <!-- Scripts de Bootstrap -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mostrar toasts automáticamente cuando hay mensajes
+        document.addEventListener('DOMContentLoaded', function() {
+            var toastElements = document.querySelectorAll('.toast');
+            toastElements.forEach(function(toastEl) {
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        });
+    </script>
 </body>
 </html>
