@@ -174,3 +174,53 @@ class PasswordChangeFromProfileForm(forms.Form):
             raise ValidationError(e.messages)
         
         return password2
+
+
+class EmailChangeRequestForm(forms.Form):
+    """Formulario para solicitar cambio de email (requiere contraseña actual)"""
+    new_email = forms.EmailField(
+        label='Nuevo correo electrónico',
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ingresa tu nuevo correo electrónico'
+        }),
+        help_text='Se enviará un enlace de confirmación a este correo'
+    )
+    password = forms.CharField(
+        label='Contraseña actual',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ingresa tu contraseña actual'
+        }),
+        help_text='Necesitamos verificar tu identidad'
+    )
+    
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+    
+    def clean_new_email(self):
+        new_email = self.cleaned_data.get('new_email')
+        if new_email:
+            # Verificar que el nuevo email sea diferente al actual
+            if new_email.lower() == self.user.email.lower():
+                raise ValidationError('El nuevo correo electrónico debe ser diferente al actual.')
+            
+            # Verificar que el email no esté en uso
+            from django.contrib.auth.models import User
+            if User.objects.filter(email__iexact=new_email).exists():
+                raise ValidationError('Este correo electrónico ya está en uso por otro usuario.')
+        
+        return new_email
+    
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if password and not self.user.check_password(password):
+            raise ValidationError('La contraseña actual es incorrecta.')
+        return password
+
+
+class EmailChangeConfirmForm(forms.Form):
+    """Formulario para confirmar cambio de email (solo muestra información)"""
+    # Este formulario no necesita campos, solo se usa para mostrar la confirmación
+    pass
