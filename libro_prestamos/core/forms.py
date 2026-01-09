@@ -8,7 +8,11 @@ class LibroForm(forms.ModelForm):
         model = Libro
         fields = ['nombre', 'autor', 'editorial', 'isbn','descripcion']
         widgets = {
-            'comentarios': forms.Textarea(attrs={'rows': 3}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'autor': forms.TextInput(attrs={'class': 'form-control'}),
+            'editorial': forms.TextInput(attrs={'class': 'form-control'}),
+            'isbn': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         }
 
 from django.contrib.auth.models import User
@@ -19,11 +23,24 @@ class RegistroForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2','first_name', 'last_name']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
+        }
 
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = Perfil
         fields = ['telefono', 'ciudad', 'pais']
+        widgets = {
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'ciudad': forms.TextInput(attrs={'class': 'form-control'}),
+            'pais': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 class CargaMasivaForm(forms.Form):
     archivo_excel = forms.FileField(
