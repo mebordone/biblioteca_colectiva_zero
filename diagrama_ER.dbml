@@ -1,0 +1,135 @@
+// Diagrama Entidad-Relación - Biblioteca Colectiva Zero
+// Formato: DBML (Database Markup Language)
+// Puede visualizarse en: https://dbdiagram.io
+// Versión optimizada para mantenibilidad y simplicidad
+
+// ============================================
+// ENTIDADES PRINCIPALES
+// ============================================
+
+Table Usuario {
+  id int [pk, increment]
+  nombre varchar(255) [not null]
+  correo_electronico varchar(255) [not null, unique]
+  telefono varchar(15)
+  contraseña varchar(255) [not null]
+  ciudad varchar(100) [not null]
+  pais varchar(100) [not null]
+  fecha_creacion datetime [default: `now()`]
+  activo boolean [default: true]
+  
+  Note: 'Simplificado: ciudad y pais directamente en Usuario para evitar JOINs innecesarios'
+}
+
+Table Libro {
+  id int [pk, increment]
+  nombre varchar(255) [not null]
+  autor varchar(255) [not null]
+  editorial varchar(255)
+  isbn varchar(13) [unique]
+  tags varchar(500)
+  comentarios text
+  descripcion text
+  estado varchar(20) [default: 'disponible']
+  propietario_id int [ref: > Usuario.id, not null]
+  fecha_creacion datetime [default: `now()`]
+  eliminado boolean [default: false]
+  fecha_eliminacion datetime
+  
+  Note: 'Tags como texto simple para MVP. Migrar a tabla Tag si se necesita búsqueda avanzada'
+}
+
+Table Prestamo {
+  id int [pk, increment]
+  libro_id int [ref: > Libro.id, not null]
+  prestador_id int [ref: > Usuario.id, not null]
+  prestatario_id int [ref: > Usuario.id, not null]
+  fecha_prestamo datetime [not null, default: `now()`]
+  fecha_solicitud datetime
+  fecha_aceptacion datetime
+  fecha_devolucion datetime
+  estado varchar(20) [default: 'activo']
+  comentario_prestador text
+  comentario_prestatario text
+  comentario_devolucion text
+  eliminado boolean [default: false]
+  
+  Note: 'Estado: pendiente, aceptado, activo, devuelto, cancelado. Campos de solicitud para Release 3'
+}
+
+Table Notificacion {
+  id int [pk, increment]
+  tipo varchar(30) [not null]
+  estado varchar(20) [default: 'pendiente']
+  fecha_hora datetime [not null, default: `now()`]
+  usuario_receptor_id int [ref: > Usuario.id, not null]
+  prestamo_id int [ref: > Prestamo.id]
+  mensaje text
+  
+  Note: 'Tipos: solicitud_prestamo, prestamo_aceptado, prestamo_rechazado, libro_devuelto, etc.'
+}
+
+Table Comunidad {
+  id int [pk, increment]
+  nombre varchar(255) [not null, unique]
+  descripcion text
+  imagen varchar(255)
+  administrador_id int [ref: > Usuario.id, not null]
+  fecha_creacion datetime [default: `now()`]
+  activa boolean [default: true]
+  
+  Note: 'Para Release 5. Permite soft-delete con campo activa'
+}
+
+Table UsuarioComunidad {
+  id int [pk, increment]
+  usuario_id int [ref: > Usuario.id, not null]
+  comunidad_id int [ref: > Comunidad.id, not null]
+  rol varchar(50) [default: 'miembro']
+  fecha_union datetime [default: `now()`]
+  
+  Note: 'Relación muchos-a-muchos. Constraint unique(usuario_id, comunidad_id) recomendado'
+}
+
+// ============================================
+// ÍNDICES RECOMENDADOS (para rendimiento)
+// ============================================
+// Nota: Estos índices mejoran las búsquedas frecuentes
+// 
+// Libro:
+//   - nombre (búsquedas por título)
+//   - autor (búsquedas por autor)
+//   - estado (filtros de disponibilidad)
+//   - propietario_id (ya indexado por FK)
+//
+// Prestamo:
+//   - prestador_id (ya indexado por FK)
+//   - prestatario_id (ya indexado por FK)
+//   - estado (filtros de estado)
+//   - fecha_prestamo (ordenamiento y filtros temporales)
+//
+// Notificacion:
+//   - usuario_receptor_id (ya indexado por FK)
+//   - estado (filtros de notificaciones pendientes)
+//   - fecha_hora (ordenamiento)
+//
+// UsuarioComunidad:
+//   - usuario_id (ya indexado por FK)
+//   - comunidad_id (ya indexado por FK)
+//   - Constraint único: (usuario_id, comunidad_id)
+
+// ============================================
+// CONSTRAINTS RECOMENDADOS
+// ============================================
+// Prestamo:
+//   - CHECK: prestador_id != prestatario_id
+//   - CHECK: Al crear préstamo, libro.estado debe ser 'disponible'
+//
+// UsuarioComunidad:
+//   - UNIQUE(usuario_id, comunidad_id)
+//
+// Libro:
+//   - CHECK: estado IN ('disponible', 'prestado', 'no_disponible')
+//
+// Prestamo:
+//   - CHECK: estado IN ('pendiente', 'aceptado', 'activo', 'devuelto', 'cancelado')

@@ -1,6 +1,64 @@
 **Resumen del Proyecto: Sistema de Préstamos de Libros Físicos**  
 
-El sistema tiene como objetivo facilitar la gestión de préstamos de libros físicos entre personas, promoviendo la colaboración y el intercambio dentro de comunidades. Los usuarios pueden gestionar sus propios libros, registrar préstamos y, en etapas avanzadas, interactuar en comunidades para compartir recursos de manera eficiente.  
+El sistema tiene como objetivo facilitar la gestión de préstamos de libros físicos entre personas, promoviendo la colaboración y el intercambio dentro de comunidades. Los usuarios pueden gestionar sus propios libros, registrar préstamos y, en etapas avanzadas, interactuar en comunidades para compartir recursos de manera eficiente.
+
+---
+
+## Instalación y Configuración
+
+### Requisitos
+- Python 3.12 o superior
+- Django 5.1.4 o superior
+- openpyxl 3.1.0 o superior (para carga masiva de Excel)
+
+### Pasos de Instalación
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone <url-del-repositorio>
+   cd biblioteca-colectiva-zero
+   ```
+
+2. **Crear y activar entorno virtual:**
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate  # En Windows: .venv\Scripts\activate
+   ```
+
+3. **Instalar dependencias:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Configurar la base de datos:**
+   ```bash
+   cd libro_prestamos
+   python manage.py migrate
+   ```
+
+5. **Crear superusuario (opcional):**
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+6. **Ejecutar el servidor de desarrollo:**
+   ```bash
+   python manage.py runserver
+   ```
+
+El sistema estará disponible en `http://127.0.0.1:8000/`
+
+---
+
+## Documentación del Modelo de Datos
+
+El diagrama entidad-relación (ER) del sistema está disponible en formato DBML:
+- **Archivo:** `diagrama_ER.dbml`
+- **Visualización:** Puedes visualizarlo en [dbdiagram.io](https://dbdiagram.io)
+
+El modelo ha sido optimizado para mantenibilidad y simplicidad, priorizando la facilidad de uso y mantenimiento por un solo desarrollador.
+
+---  
 
 ### **Entidades Principales:**
 1. **Usuario:**  
@@ -35,8 +93,10 @@ El sistema tiene como objetivo facilitar la gestión de préstamos de libros fí
    - Registro, inicio de sesión y edición de perfil.  
 
 2. **Gestión de Libros:**  
-   - Carga manual o masiva mediante archivo Excel.  
-   - Actualización de estado (disponible, no disponible, prestado).  
+   - Carga manual individual de libros.
+   - **Carga masiva mediante archivo Excel** (Release 2 - ✅ Implementado).
+   - Actualización de estado (disponible, no disponible, prestado).
+   - Edición y eliminación de libros propios.  
 
 3. **Gestión de Préstamos:**  
    - Registrar préstamos entre usuarios con estados claros.  
@@ -88,21 +148,31 @@ Desarrollar un sistema para gestionar préstamos de libros físicos entre usuari
 
 ---
 
-### **Release 2: Gestión de Inventario a Gran Escala**
-2. **Carga masiva de libros:**
-   - Permitir que los usuarios suban un archivo Excel con información de varios libros.
-   - Validar datos del archivo y cargar los libros asociados al usuario.
+### **Release 2: Gestión de Inventario a Gran Escala** ✅ **COMPLETADO**
 
-#### **Tareas técnicas:**
-- Implementar una funcionalidad para procesar archivos Excel utilizando una biblioteca como **`openpyxl`**.
-- Crear una interfaz para que los usuarios suban archivos y vean el estado del procesamiento.
-- Validar datos del archivo (campos obligatorios como título, autor).
-- Manejar errores (e.g., libros duplicados, datos faltantes).
+#### **Funcionalidades implementadas:**
+1. **Carga masiva de libros:**
+   - Los usuarios pueden subir un archivo Excel (.xlsx o .xls) con información de múltiples libros.
+   - Validación automática de datos del archivo.
+   - Detección de duplicados (por ISBN y por nombre+autor).
+   - Procesamiento en lote con feedback detallado de resultados.
 
-#### **Meta de entrega:**  
-Facilitar la carga masiva de libros, optimizando la experiencia para usuarios con grandes inventarios.
+#### **Características técnicas:**
+- ✅ Implementada funcionalidad para procesar archivos Excel utilizando **`openpyxl`**.
+- ✅ Interfaz completa para subir archivos y visualizar el estado del procesamiento.
+- ✅ Validación de datos del archivo (campos obligatorios: nombre y autor).
+- ✅ Manejo robusto de errores (libros duplicados, datos faltantes, formato incorrecto).
+- ✅ Detección flexible de columnas (case-insensitive, con/sin acentos).
+- ✅ Generación de plantilla Excel descargable con ejemplos.
+- ✅ Reporte detallado de resultados: libros creados, duplicados y errores por fila.
 
-#### **Meta de entrega:** Sistema robusto que permite gestionar solicitudes de préstamo con estados claros.
+#### **Estructura del Excel:**
+- **Columnas obligatorias:** Nombre, Autor
+- **Columnas opcionales:** Editorial, ISBN, Descripción
+- **Formato:** Primera fila con encabezados, filas siguientes con datos
+
+#### **Meta de entrega:** ✅ **COMPLETADO**  
+Sistema que facilita la carga masiva de libros, optimizando la experiencia para usuarios con grandes inventarios.
 
 ---
 
@@ -178,7 +248,16 @@ Facilitar la carga masiva de libros, optimizando la experiencia para usuarios co
 
 ---
 
+### **Estado Actual del Proyecto:**
+- ✅ **Release 1 (MVP):** Completado - Sistema básico funcional
+- ✅ **Release 2 (Carga Masiva):** Completado - Carga masiva desde Excel implementada
+- 🔄 **Release 3 (Préstamos Avanzados):** Pendiente
+- 🔄 **Release 4 (Búsquedas Avanzadas):** Pendiente
+- 🔄 **Release 5 (Comunidades):** Pendiente
+- 🔄 **Release 6 (Notificaciones):** Pendiente
+- 🔄 **Release 7 (Mejoras Opcionales):** Pendiente
+
 ### **Observaciones finales:**
 - Este plan permite ir desarrollando funcionalidades de manera iterativa, priorizando un MVP simple y escalando según las necesidades.
-- La carga masiva de libros en Release 2 es clave para mejorar la experiencia del usuario desde etapas tempranas.
+- La carga masiva de libros en Release 2 ha sido implementada exitosamente, mejorando significativamente la experiencia del usuario para gestionar grandes inventarios.
 
