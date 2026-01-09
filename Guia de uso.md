@@ -8,7 +8,8 @@
 ## Tabla de Contenidos
 1. [Cómo Registrarse](#cómo-registrarse)
 2. [Cómo Añadir Libros](#cómo-añadir-libros)
-3. [Cómo Pedir un Libro en Préstamo](#cómo-pedir-un-libro-en-préstamo)
+3. [Carga Masiva de Libros desde Excel](#carga-masiva-de-libros-desde-excel)
+4. [Cómo Pedir un Libro en Préstamo](#cómo-pedir-un-libro-en-préstamo)
 5. [Preguntas Frecuentes](#preguntas-frecuentes)
 6. [Actualización de la Guía](#actualización-de-la-guía)
 
@@ -27,14 +28,38 @@
 ---
 
 ## Cómo Añadir Libros
+
+### Carga Individual de Libros
 1. Inicia sesión en tu cuenta.
 2. Ve al menú **Libros** y selecciona **Cargar Libro**.
 3. Completa la información del libro, como:
-   - Nombre
-   - Autor
+   - Nombre (obligatorio)
+   - Autor (obligatorio)
    - Editorial (opcional)
-   - ISBN
+   - ISBN (opcional)
+   - Descripción (opcional)
 4. Haz clic en **Guardar** para agregar el libro a tu biblioteca personal.
+
+### Carga Masiva de Libros desde Excel
+Para agregar múltiples libros de una vez, puedes usar la funcionalidad de carga masiva:
+
+1. Inicia sesión en tu cuenta.
+2. Ve al menú **Libros** y selecciona **Carga Masiva (Excel)**.
+3. Descarga la plantilla Excel de ejemplo haciendo clic en el botón **"Descargar Plantilla Excel"**.
+4. Completa la plantilla con tus libros:
+   - **Columnas obligatorias:** Nombre, Autor
+   - **Columnas opcionales:** Editorial, ISBN, Descripción
+   - La primera fila debe contener los encabezados
+   - Cada fila siguiente representa un libro
+5. Guarda el archivo Excel (.xlsx o .xls).
+6. En la página de carga masiva, haz clic en **"Elegir archivo"** y selecciona tu archivo Excel.
+7. Haz clic en **"Procesar Archivo"**.
+8. Revisa los resultados:
+   - **Libros creados:** Se mostrarán los libros que se agregaron exitosamente
+   - **Duplicados:** Se mostrarán los libros que ya existen (no se crearán)
+   - **Errores:** Se mostrarán los problemas encontrados en el archivo con el número de fila
+
+**Nota:** El sistema detecta automáticamente las columnas, incluso si tienen nombres ligeramente diferentes (con o sin acentos, mayúsculas/minúsculas).
 
 ---
 
@@ -66,7 +91,24 @@ Por Ahora no esta implementada la recuperación de contraseña, contacta al admi
 Sí, ve a **Mis Libros**, selecciona el libro que deseas editar y actualiza la información.
 
 ### ¿Cómo pido un libro prestado?
-Por ahora no está implementada la funcionalidad de pedidos, si conoces al anfitrion del libro pediseño y que el gestione el prestamo en la plataforma.
+Por ahora no está implementada la funcionalidad de pedidos, si conoces al anfitrión del libro pídeselo y que él gestione el préstamo en la plataforma.
+
+### ¿Puedo cargar muchos libros a la vez?
+Sí, puedes usar la funcionalidad de **Carga Masiva (Excel)** desde el menú de Libros. Descarga la plantilla, completa tus libros en Excel y súbelos todos de una vez. El sistema te mostrará cuántos se crearon, cuáles son duplicados y si hubo algún error.
+
+### ¿Qué pasa si tengo libros duplicados en mi archivo Excel?
+El sistema detecta automáticamente los duplicados y no los creará. Te mostrará qué libros son duplicados y por qué (por ISBN o por nombre+autor). Los duplicados no se crearán, pero el resto de los libros válidos sí se procesarán.
+
+### ¿Qué formato debe tener el archivo Excel?
+El archivo debe ser .xlsx o .xls. La primera fila debe contener los encabezados de las columnas. Las columnas obligatorias son "Nombre" y "Autor". Las opcionales son "Editorial", "ISBN" y "Descripción". Puedes descargar una plantilla de ejemplo desde la página de carga masiva.
+
+### ¿Qué pasa si mi archivo Excel tiene errores?
+El sistema procesará todas las filas válidas y te mostrará un reporte detallado de:
+- Los libros que se crearon exitosamente
+- Los libros duplicados (que no se crearon)
+- Los errores encontrados, indicando el número de fila y el motivo del error
+
+Puedes corregir los errores en tu archivo Excel y volver a subirlo.
 
 ---
 
