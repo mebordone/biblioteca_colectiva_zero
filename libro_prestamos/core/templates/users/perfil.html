@@ -83,10 +83,32 @@
                             <h5 class="mb-0"><i class="bi bi-shield-lock"></i> Seguridad</h5>
                         </div>
                         <div class="card-body">
-                            <p class="mb-2">¿Quieres cambiar tu contraseña?</p>
-                            <a href="{% url 'cambiar_password_desde_perfil' %}" class="btn btn-warning">
-                                <i class="bi bi-key"></i> Cambiar Contraseña
-                            </a>
+                            <div class="mb-3">
+                                <p class="mb-2"><i class="bi bi-key"></i> ¿Quieres cambiar tu contraseña?</p>
+                                <a href="{% url 'cambiar_password_desde_perfil' %}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-key"></i> Cambiar Contraseña
+                                </a>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="mb-3">
+                                <p class="mb-2"><i class="bi bi-envelope-at"></i> ¿Quieres cambiar tu correo electrónico?</p>
+                                <p class="text-muted small mb-2">Correo actual: <strong>{{ user.email }}</strong></p>
+                                <a href="{% url 'solicitar_cambio_email' %}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-envelope-at"></i> Cambiar Correo Electrónico
+                                </a>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div>
+                                <p class="mb-2"><i class="bi bi-shield-exclamation"></i> ¿Quieres cerrar sesión en todos los dispositivos?</p>
+                                <p class="text-muted small mb-2">Esto cerrará todas las sesiones activas en otros dispositivos.</p>
+                                <a href="{% url 'cerrar_sesiones_todas' %}" class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-shield-exclamation"></i> Cerrar Todas las Sesiones
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
