@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Libro, Prestamo
-from .forms import LibroForm, RegistroForm, PerfilForm
+from .forms import LibroForm, RegistroForm, PerfilForm, CargaMasivaForm
 from django.contrib.auth.models import User
 from .models import Libro, Prestamo
 from django.contrib import messages
+from .utils import procesar_excel_libros, generar_plantilla_excel
 
 def home(request):
     return render(request, 'home.html')
@@ -213,3 +214,59 @@ def perfil(request):
 
     return render(request, 'users/perfil.html', {'form': form})
 
+## Carga Masiva
+
+@login_required
+def cargar_libros_masivo(request):
+    """
+    Vista para cargar múltiples libros desde un archivo Excel.
+    """
+    if request.method == 'POST':
+        form = CargaMasivaForm(request.POST, request.FILES)
+        if form.is_valid():
+            archivo = request.FILES['archivo_excel']
+            
+            # Procesar el archivo Excel
+            resultados = procesar_excel_libros(archivo, request.user)
+            
+            # Mostrar mensajes según resultados
+            if resultados['libros_creados']:
+                mensaje = f"Se crearon {len(resultados['libros_creados'])} libro(s) exitosamente."
+                messages.success(request, mensaje)
+            
+            if resultados['duplicados']:
+                mensaje = f"Se encontraron {len(resultados['duplicados'])} libro(s) duplicado(s) que no se crearon."
+                messages.warning(request, mensaje)
+            
+            if resultados['errores']:
+                mensaje = f"Se encontraron {len(resultados['errores'])} error(es) en el archivo."
+                messages.error(request, mensaje)
+            
+            # Renderizar con resultados
+            return render(request, 'libros/cargar_masivo.html', {
+                'form': CargaMasivaForm(),
+                'resultados': resultados,
+                'mostrar_resultados': True
+            })
+    else:
+        form = CargaMasivaForm()
+    
+    return render(request, 'libros/cargar_masivo.html', {
+        'form': form,
+        'resultados': None,
+        'mostrar_resultados': False
+    })
+
+
+@login_required
+def descargar_plantilla_excel(request):
+    """
+    Vista para descargar la plantilla Excel de ejemplo.
+    """
+    plantilla = generar_plantilla_excel()
+    response = HttpResponse(
+        plantilla.getvalue(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="plantilla_libros.xlsx"'
+    return response
