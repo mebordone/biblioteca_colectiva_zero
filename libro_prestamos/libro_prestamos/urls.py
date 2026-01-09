@@ -43,4 +43,11 @@ urlpatterns = [
     path('password/solicitar/', views.solicitar_cambio_password, name='solicitar_cambio_password'),
     path('password/confirmar/<str:token>/', views.confirmar_cambio_password, name='confirmar_cambio_password'),
     path('password/cambiar/', views.cambiar_password_desde_perfil, name='cambiar_password_desde_perfil'),
+    
+    # Cambio de email
+    path('email/solicitar/', views.solicitar_cambio_email, name='solicitar_cambio_email'),
+    path('email/confirmar/<str:token>/', views.confirmar_cambio_email, name='confirmar_cambio_email'),
+    
+    # Seguridad
+    path('security/cerrar-sesiones/', views.cerrar_sesiones_todas, name='cerrar_sesiones_todas'),
 ]
