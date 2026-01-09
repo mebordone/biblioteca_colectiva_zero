@@ -3,51 +3,168 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-<div class="container text-center mt-5">
-    <!-- Título principal -->
-    <h1 class="display-4">¡Bienvenido a la Biblioteca Comunitaria!</h1>
-    <p class="lead text-muted">Explora, comparte y conecta a través de los libros.</p>
+<div class="container mt-4">
+    {% if user.is_authenticated %}
+        <!-- Dashboard para usuarios autenticados -->
+        <h1 class="mb-4"><i class="bi bi-house-door"></i> Bienvenido, {{ user.username }}</h1>
+        
+        <!-- Estadísticas -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'listar_mis_libros' %}" class="text-decoration-none">
+                    <div class="card text-center shadow-sm h-100 hover-card">
+                        <div class="card-body">
+                            <i class="bi bi-book display-4 text-primary"></i>
+                            <h3 class="mt-2">{{ total_libros }}</h3>
+                            <p class="text-muted mb-0">Mis Libros</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'listar_mis_libros' %}" class="text-decoration-none">
+                    <div class="card text-center shadow-sm h-100 hover-card">
+                        <div class="card-body">
+                            <i class="bi bi-check-circle display-4 text-success"></i>
+                            <h3 class="mt-2">{{ libros_disponibles }}</h3>
+                            <p class="text-muted mb-0">Disponibles</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'listar_prestamos' %}" class="text-decoration-none">
+                    <div class="card text-center shadow-sm h-100 hover-card">
+                        <div class="card-body">
+                            <i class="bi bi-share display-4 text-warning"></i>
+                            <h3 class="mt-2">{{ prestamos_activos }}</h3>
+                            <p class="text-muted mb-0">Prestados</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'listar_prestamos' %}#recibidos" class="text-decoration-none">
+                    <div class="card text-center shadow-sm h-100 hover-card">
+                        <div class="card-body">
+                            <i class="bi bi-inbox display-4 text-info"></i>
+                            <h3 class="mt-2">{{ prestamos_recibidos }}</h3>
+                            <p class="text-muted mb-0">Recibidos</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Accesos Rápidos -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h3 class="mb-3"><i class="bi bi-lightning"></i> Accesos Rápidos</h3>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{% url 'cargar_libro' %}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-plus-circle"></i> Agregar Libro
+                    </a>
+                    <a href="{% url 'cargar_libros_masivo' %}" class="btn btn-outline-primary btn-lg">
+                        <i class="bi bi-file-earmark-excel"></i> Carga Masiva
+                    </a>
+                    <a href="{% url 'crear_prestamo' %}" class="btn btn-success btn-lg">
+                        <i class="bi bi-share"></i> Prestar Libro
+                    </a>
+                    <a href="{% url 'listar_libros' %}" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-list-ul"></i> Ver Todos los Libros
+                    </a>
+                    <a href="{% url 'listar_prestamos' %}" class="btn btn-outline-info btn-lg">
+                        <i class="bi bi-clock-history"></i> Mis Préstamos
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Últimos Libros Agregados -->
+        {% if ultimos_libros %}
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-3"><i class="bi bi-clock-history"></i> Últimos Libros Agregados</h3>
+                <div class="row">
+                    {% for libro in ultimos_libros %}
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ libro.nombre }}</h5>
+                                <p class="card-text text-muted">{{ libro.autor }}</p>
+                                <a href="{% url 'libro_detalle' libro.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> Ver Detalles
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+    {% else %}
+        <!-- Página de inicio para usuarios no autenticados -->
+        <div class="text-center mt-5">
+            <h1 class="display-4 mb-3">¡Bienvenido a la Biblioteca Comunitaria!</h1>
+            <p class="lead text-muted mb-5">Explora, comparte y conecta a través de los libros.</p>
 
-    <!-- Sección destacada -->
-    <div class="row mt-5">
-        <!-- Libros -->
-        <div class="col-md-4">
-            <div class="card border-primary">
-                <div class="card-body">
-                    <h5 class="card-title">Explora Libros</h5>
-                    <p class="card-text">Descubre libros en la biblioteca de tus amigos y comunidades.</p>
-                    <a href="{% url 'listar_libros' %}" class="btn btn-primary">Ver Libros</a>
+            <!-- Sección destacada -->
+            <div class="row mt-5">
+                <!-- Libros -->
+                <div class="col-md-4 mb-4">
+                    <div class="card border-primary shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-book display-4 text-primary mb-3"></i>
+                            <h5 class="card-title">Explora Libros</h5>
+                            <p class="card-text">Descubre libros en la biblioteca de tus amigos y comunidades.</p>
+                            <a href="{% url 'listar_libros' %}" class="btn btn-primary">
+                                <i class="bi bi-list-ul"></i> Ver Libros
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Préstamos -->
+                <div class="col-md-4 mb-4">
+                    <div class="card border-secondary shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-arrow-repeat display-4 text-secondary mb-3"></i>
+                            <h5 class="card-title">Gestiona Préstamos</h5>
+                            <p class="card-text">Lleva un registro de los libros que prestaste y pediste.</p>
+                            <a href="{% url 'login' %}" class="btn btn-secondary">
+                                <i class="bi bi-box-arrow-in-right"></i> Inicia Sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Comunidades -->
+                <div class="col-md-4 mb-4">
+                    <div class="card border-success shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-people display-4 text-success mb-3"></i>
+                            <h5 class="card-title">Únete a Comunidades</h5>
+                            <p class="card-text">Conéctate con lectores, comparte libros y participa en actividades.</p>
+                            <button class="btn btn-success" disabled>
+                                <i class="bi bi-hourglass-split"></i> Próximamente
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Préstamos -->
-        <div class="col-md-4">
-            <div class="card border-secondary">
-                <div class="card-body">
-                    <h5 class="card-title">Gestiona Préstamos</h5>
-                    <p class="card-text">Lleva un registro de los libros que prestaste y pediste.</p>
-                    <a href="{% url 'listar_prestamos' %}" class="btn btn-secondary">Ver Préstamos</a>
-                </div>
-            </div>
-        </div>
-        <!-- Comunidades -->
-        <div class="col-md-4">
-            <div class="card border-success">
-                <div class="card-body">
-                    <h5 class="card-title">Únete a Comunidades</h5>
-                    <p class="card-text">Conéctate con lectores, comparte libros y participa en actividades.</p>
-                    <a href="#" class="btn btn-success">Ver Comunidades</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Invitación a registrarse -->
-    {% if not user.is_authenticated %}
-    <div class="mt-5">
-        <p class="lead">¿No tienes cuenta aún?</p>
-        <a href="{% url 'registro' %}" class="btn btn-lg btn-primary">Regístrate ahora</a>
-    </div>
+            <!-- Invitación a registrarse -->
+            <div class="mt-5">
+                <h3 class="mb-3">¿Listo para comenzar?</h3>
+                <p class="lead mb-4">Únete a nuestra comunidad de lectores</p>
+                <a href="{% url 'registro' %}" class="btn btn-primary btn-lg me-2">
+                    <i class="bi bi-person-plus"></i> Regístrate ahora
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                </a>
+            </div>
+        </div>
     {% endif %}
 </div>
 {% endblock %}
