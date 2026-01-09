@@ -39,4 +39,8 @@ urlpatterns = [
     path('registro/', views.registro, name='registro'),
     path('logout/', views.logout_view, name='logout'),
     path('perfil/', views.perfil, name='perfil'),
+    # Cambio de contraseña
+    path('password/solicitar/', views.solicitar_cambio_password, name='solicitar_cambio_password'),
+    path('password/confirmar/<str:token>/', views.confirmar_cambio_password, name='confirmar_cambio_password'),
+    path('password/cambiar/', views.cambiar_password_desde_perfil, name='cambiar_password_desde_perfil'),
 ]
