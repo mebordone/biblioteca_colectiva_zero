@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0"><i class="bi bi-shield-check"></i> Confirmar Cambio de Correo Electrónico</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i>
+                        <strong>Información del cambio:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li><strong>Correo actual:</strong> {{ old_email }}</li>
+                            <li><strong>Nuevo correo:</strong> {{ new_email }}</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-muted">
+                        ¿Confirmas que deseas cambiar tu correo electrónico de <strong>{{ old_email }}</strong> 
+                        a <strong>{{ new_email }}</strong>?
+                    </p>
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-check-circle"></i> Confirmar Cambio
+                            </button>
+                            <a href="{% url 'perfil' %}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                    
+                    <div class="alert alert-warning mt-3">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <strong>Importante:</strong> Esta acción no se puede deshacer. 
+                        A partir de ahora, usarás el nuevo correo electrónico para iniciar sesión y recibir notificaciones.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

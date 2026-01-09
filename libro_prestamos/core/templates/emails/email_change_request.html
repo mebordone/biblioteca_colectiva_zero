@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Cambio de Correo Electrónico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid #dee2e6;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #0d6efd;
+            margin: 0;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #0b5ed7;
+        }
+        .info-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 30px;
+        }
+        .email-info {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Confirmar Cambio de Correo Electrónico</h1>
+        </div>
+        
+        <div class="content">
+            <p>Hola <strong>{{ user.get_full_name|default:user.username }}</strong>,</p>
+            
+            <p>Has solicitado cambiar tu correo electrónico en Biblioteca Colectiva.</p>
+            
+            <div class="email-info">
+                <p><strong>Correo actual:</strong> {{ user.email }}</p>
+                <p><strong>Nuevo correo:</strong> {{ new_email }}</p>
+            </div>
+            
+            <p>Para completar el cambio, haz clic en el siguiente botón:</p>
+            
+            <div style="text-align: center;">
+                <a href="{{ confirm_url }}" class="button">Confirmar Cambio de Correo</a>
+            </div>
+            
+            <p>O copia y pega este enlace en tu navegador:</p>
+            <p style="word-break: break-all; color: #0d6efd;">{{ confirm_url }}</p>
+            
+            <div class="info-box">
+                <strong>⚠️ Importante:</strong>
+                <ul>
+                    <li>Este enlace expirará en 24 horas</li>
+                    <li>Solo puede ser usado una vez</li>
+                    <li>Si no solicitaste este cambio, puedes ignorar este email</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Saludos,<br>Equipo de Biblioteca Colectiva</p>
+            <p style="font-size: 0.8em; color: #adb5bd;">
+                Este es un email automático, por favor no respondas a este mensaje.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

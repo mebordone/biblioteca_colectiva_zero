@@ -1,12 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden, HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Libro, Prestamo
-from .forms import LibroForm, RegistroForm, PerfilForm, CargaMasivaForm
+from .models import Libro, Prestamo, PasswordResetToken, EmailChangeToken
+from .forms import (
+    LibroForm, RegistroForm, PerfilForm, CargaMasivaForm,
+    PasswordChangeRequestForm, PasswordChangeConfirmForm, PasswordChangeFromProfileForm,
+    EmailChangeRequestForm, EmailChangeConfirmForm
+)
 from django.contrib.auth.models import User
-from .models import Libro, Prestamo
 from django.contrib import messages
-from .utils import procesar_excel_libros, generar_plantilla_excel
+from django.contrib.auth import update_session_auth_hash
+from django.utils import timezone
+from django.conf import settings
+from .utils import (
+    procesar_excel_libros, generar_plantilla_excel,
+    enviar_email_cambio_password, enviar_email_confirmacion_cambio,
+    enviar_email_cambio_email, enviar_email_confirmacion_cambio_email
+)
+import traceback
+import logging
+
+logger = logging.getLogger(__name__)
 
 def home(request):
     context = {}
@@ -335,3 +349,277 @@ def descargar_plantilla_excel(request):
     )
     response['Content-Disposition'] = 'attachment; filename="plantilla_libros.xlsx"'
     return response
+
+## Cambio de Contraseña
+
+def solicitar_cambio_password(request):
+    """
+    Vista para solicitar cambio de contraseña.
+    Si el usuario está autenticado, usa su email. Si no, solicita el email.
+    """
+    debug_info = None
+    
+    if request.method == 'POST':
+        form = PasswordChangeRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            
+            # Si el usuario está autenticado, usar su email
+            if request.user.is_authenticated:
+                email = request.user.email
+                user = request.user
+            else:
+                # Buscar usuario por email
+                try:
+                    user = User.objects.get(email=email)
+                except User.DoesNotExist:
+                    # Por seguridad, no revelamos si el email existe
+                    messages.success(request, 
+                        'Si el correo electrónico existe en nuestro sistema, recibirás un enlace para cambiar tu contraseña.')
+                    return redirect('solicitar_cambio_password')
+            
+            # Crear token
+            token = PasswordResetToken.create_token(user)
+            
+            # Enviar email
+            try:
+                if enviar_email_cambio_password(user, token):
+                    messages.success(request, 
+                        'Se ha enviado un enlace a tu correo electrónico para cambiar tu contraseña. '
+                        'Por favor revisa tu bandeja de entrada.')
+                    return redirect('solicitar_cambio_password')
+                else:
+                    messages.error(request, 
+                        'Hubo un error al enviar el email. Por favor intenta nuevamente más tarde.')
+                    # En modo DEBUG, no redirigir para mostrar debug
+                    if not settings.DEBUG:
+                        return redirect('solicitar_cambio_password')
+            except Exception as e:
+                logger.error(f"Error al enviar email en vista: {e}")
+                logger.error(traceback.format_exc())
+                
+                # En modo DEBUG, guardar información detallada y NO redirigir
+                if settings.DEBUG:
+                    debug_info = {
+                        'error_type': type(e).__name__,
+                        'error_message': str(e),
+                        'traceback': traceback.format_exc(),
+                        'user_email': user.email if user else 'N/A',
+                        'subject': 'Cambio de contrasena - Biblioteca Colectiva',
+                        'from_email': settings.DEFAULT_FROM_EMAIL,
+                        'to_email': user.email if user else 'N/A',
+                    }
+                    error_detail = f"Error: {type(e).__name__}: {str(e)}"
+                    messages.error(request, 
+                        f'Error al enviar el email. {error_detail}. Revisa la consola del servidor y la sección de debug abajo para más detalles.')
+                else:
+                    messages.error(request, 
+                        'Hubo un error al enviar el email. Por favor intenta nuevamente más tarde.')
+                    return redirect('solicitar_cambio_password')
+            
+            # Si estamos en DEBUG y hay error, mostrar página con debug_info
+            if settings.DEBUG and debug_info:
+                context = {
+                    'form': PasswordChangeRequestForm(initial={'email': email} if not request.user.is_authenticated else {}),
+                    'debug': True,
+                    'debug_info': debug_info,
+                }
+                return render(request, 'users/solicitar_cambio_password.html', context)
+    else:
+        # Si el usuario está autenticado, pre-llenar el email
+        initial = {}
+        if request.user.is_authenticated:
+            initial['email'] = request.user.email
+        
+        form = PasswordChangeRequestForm(initial=initial)
+    
+    # Agregar información de debug si está activado
+    context = {
+        'form': form,
+        'debug': settings.DEBUG,
+    }
+    if debug_info:
+        context['debug_info'] = debug_info
+    
+    return render(request, 'users/solicitar_cambio_password.html', context)
+
+
+def confirmar_cambio_password(request, token):
+    """
+    Vista para confirmar y cambiar la contraseña usando el token.
+    """
+    try:
+        reset_token = PasswordResetToken.objects.get(token=token)
+    except PasswordResetToken.DoesNotExist:
+        messages.error(request, 'El enlace de cambio de contraseña es inválido o ha expirado.')
+        return redirect('solicitar_cambio_password')
+    
+    # Validar token
+    if not reset_token.is_valid():
+        messages.error(request, 'El enlace de cambio de contraseña ha expirado o ya fue utilizado.')
+        return redirect('solicitar_cambio_password')
+    
+    if request.method == 'POST':
+        form = PasswordChangeConfirmForm(request.POST)
+        if form.is_valid():
+            # Cambiar contraseña
+            new_password = form.cleaned_data['new_password2']
+            reset_token.user.set_password(new_password)
+            reset_token.user.save()
+            
+            # Marcar token como usado
+            reset_token.mark_as_used()
+            
+            # Enviar email de confirmación
+            enviar_email_confirmacion_cambio(reset_token.user)
+            
+            messages.success(request, 
+                'Tu contraseña ha sido cambiada exitosamente. Ahora puedes iniciar sesión con tu nueva contraseña.')
+            
+            return redirect('login')
+    else:
+        form = PasswordChangeConfirmForm()
+    
+    return render(request, 'users/confirmar_cambio_password.html', {
+        'form': form,
+        'token': reset_token
+    })
+
+
+@login_required
+def cambiar_password_desde_perfil(request):
+    """
+    Vista para cambiar contraseña desde el perfil (requiere contraseña actual).
+    Cambia la contraseña inmediatamente y envía email de confirmación.
+    """
+    if request.method == 'POST':
+        form = PasswordChangeFromProfileForm(request.user, request.POST)
+        if form.is_valid():
+            # Cambiar la contraseña inmediatamente (ya validamos la contraseña actual)
+            new_password = form.cleaned_data['new_password1']
+            request.user.set_password(new_password)
+            request.user.save()
+            
+            # Actualizar la sesión para evitar que el usuario sea deslogueado
+            from django.contrib.auth import update_session_auth_hash
+            update_session_auth_hash(request, request.user)
+            
+            # Enviar email de confirmación del cambio
+            enviar_email_confirmacion_cambio(request.user)
+            
+            messages.success(request, 
+                'Tu contraseña ha sido cambiada exitosamente. Se ha enviado un email de confirmación a tu correo electrónico.')
+            
+            return redirect('perfil')
+    else:
+        form = PasswordChangeFromProfileForm(request.user)
+    
+    return render(request, 'users/cambiar_password.html', {'form': form})
+
+
+## Cambio de Email
+
+@login_required
+def solicitar_cambio_email(request):
+    """
+    Vista para solicitar cambio de email.
+    Requiere contraseña actual y valida que el nuevo email sea único.
+    """
+    if request.method == 'POST':
+        form = EmailChangeRequestForm(request.user, request.POST)
+        if form.is_valid():
+            new_email = form.cleaned_data['new_email']
+            
+            # Crear token para confirmación por email
+            token = EmailChangeToken.create_token(request.user, new_email)
+            
+            # Enviar email con enlace de confirmación
+            if enviar_email_cambio_email(request.user, token, new_email):
+                messages.success(request, 
+                    'Se ha enviado un enlace de confirmación a tu nuevo correo electrónico. '
+                    'Por favor revisa tu bandeja de entrada para completar el cambio.')
+            else:
+                messages.error(request, 
+                    'Hubo un error al enviar el email. Por favor intenta nuevamente más tarde.')
+            
+            return redirect('perfil')
+    else:
+        form = EmailChangeRequestForm(request.user)
+    
+    return render(request, 'users/solicitar_cambio_email.html', {'form': form})
+
+
+def confirmar_cambio_email(request, token):
+    """
+    Vista para confirmar y cambiar el email usando el token.
+    """
+    try:
+        email_token = EmailChangeToken.objects.get(token=token)
+    except EmailChangeToken.DoesNotExist:
+        messages.error(request, 'El enlace de cambio de correo electrónico es inválido o ha expirado.')
+        return redirect('solicitar_cambio_email')
+    
+    # Validar token
+    if not email_token.is_valid():
+        messages.error(request, 'El enlace de cambio de correo electrónico es inválido o ha expirado.')
+        return redirect('solicitar_cambio_email')
+    
+    user = email_token.user
+    old_email = user.email
+    new_email = email_token.new_email
+    
+    if request.method == 'POST':
+        # Cambiar el email
+        user.email = new_email
+        user.save()
+        
+        # Marcar token como usado
+        email_token.used = True
+        email_token.save()
+        
+        # Enviar email de confirmación al nuevo email
+        enviar_email_confirmacion_cambio_email(user, old_email)
+        
+        messages.success(request, 
+            f'Tu correo electrónico ha sido cambiado exitosamente de {old_email} a {new_email}.')
+        
+        # Si el usuario está autenticado, mantener la sesión
+        if request.user.is_authenticated and request.user.id == user.id:
+            return redirect('perfil')
+        else:
+            # Si no está autenticado o es otro usuario, redirigir a login
+            return redirect('login')
+    else:
+        # Mostrar formulario de confirmación
+        form = EmailChangeConfirmForm()
+    
+    return render(request, 'users/confirmar_cambio_email.html', {
+        'form': form,
+        'token': email_token,
+        'old_email': old_email,
+        'new_email': new_email,
+    })
+
+
+## Cerrar Sesión en Todos los Dispositivos
+
+@login_required
+def cerrar_sesiones_todas(request):
+    """
+    Vista para cerrar sesión en todos los dispositivos.
+    Actualiza el timestamp session_invalidated_at en el perfil.
+    """
+    if request.method == 'POST':
+        # Actualizar timestamp para invalidar todas las sesiones anteriores
+        perfil = request.user.perfil
+        perfil.session_invalidated_at = timezone.now()
+        perfil.save()
+        
+        messages.success(request, 
+            'Se han cerrado todas las sesiones en otros dispositivos. '
+            'Tu sesión actual permanecerá activa hasta que cierres sesión manualmente.')
+        
+        return redirect('perfil')
+    else:
+        # Mostrar página de confirmación
+        return render(request, 'users/cerrar_sesiones_todas.html')
