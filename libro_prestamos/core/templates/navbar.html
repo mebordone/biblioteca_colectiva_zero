@@ -1,5 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="{% url 'home' %}">Sistema de Libros</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="{% url 'home' %}">
+            <i class="bi bi-book"></i> Biblioteca Colectiva
+        </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,11 +14,11 @@
                     Libros
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="librosDropdown">
-                    <li><a class="dropdown-item" href="{% url 'listar_libros' %}">Listar Libros</a></li>
-                    <li><a class="dropdown-item" href="{% url 'listar_mis_libros' %}">Listar Mis Libros</a></li>
-                    <li><a class="dropdown-item" href="{% url 'cargar_libro' %}">Cargar Libro</a></li>
+                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'listar_libros' %}active{% endif %}" href="{% url 'listar_libros' %}"><i class="bi bi-list-ul"></i> Listar Libros</a></li>
+                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'listar_mis_libros' %}active{% endif %}" href="{% url 'listar_mis_libros' %}"><i class="bi bi-book"></i> Listar Mis Libros</a></li>
+                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'cargar_libro' %}active{% endif %}" href="{% url 'cargar_libro' %}"><i class="bi bi-plus-circle"></i> Cargar Libro</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{% url 'cargar_libros_masivo' %}">Carga Masiva (Excel)</a></li>
+                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'cargar_libros_masivo' %}active{% endif %}" href="{% url 'cargar_libros_masivo' %}"><i class="bi bi-file-earmark-excel"></i> Carga Masiva (Excel)</a></li>
                 </ul>
             </li>
             <!-- Préstamos -->
@@ -24,9 +27,9 @@
                     Préstamos
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="prestamosDropdown">
-                    <li><a class="dropdown-item" href="{% url 'listar_prestamos' %}">Listar Mis Préstamos</a></li>
-                    <li><a class="dropdown-item" href="{% url 'historial_prestamos' %}">Mi Historial de Préstamos</a></li>
-                    <li><a class="dropdown-item" href="{% url 'crear_prestamo' %}">Prestar Libro</a></li>
+                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'listar_prestamos' %}active{% endif %}" href="{% url 'listar_prestamos' %}"><i class="bi bi-clock-history"></i> Listar Mis Préstamos</a></li>
+                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'historial_prestamos' %}active{% endif %}" href="{% url 'historial_prestamos' %}"><i class="bi bi-journal-text"></i> Mi Historial de Préstamos</a></li>
+                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'crear_prestamo' %}active{% endif %}" href="{% url 'crear_prestamo' %}"><i class="bi bi-share"></i> Prestar Libro</a></li>
                 </ul>
             </li>
             <!-- Comunidades -->
@@ -49,14 +52,16 @@
                         {{ user.username }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioDropdown">
-                        <li><a class="dropdown-item" href="{% url 'perfil' %}">Perfil</a></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                        <li><a class="dropdown-item {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}"><i class="bi bi-person-circle"></i> Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
                     </ul>
                 </li>
             {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registrarme</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'registro' %}active{% endif %}" href="{% url 'registro' %}"><i class="bi bi-person-plus"></i> Registrarme</a></li>
             {% endif %}
         </ul>
+    </div>
     </div>
 </nav>
