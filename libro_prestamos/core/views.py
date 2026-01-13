@@ -17,6 +17,7 @@ from .utils import (
     enviar_email_cambio_password, enviar_email_confirmacion_cambio,
     enviar_email_cambio_email, enviar_email_confirmacion_cambio_email
 )
+from .services import crear_prestamo_service, marcar_devuelto_service
 import traceback
 import logging
 
@@ -77,7 +78,7 @@ def listar_libros(request):
 
 @login_required
 def listar_mis_libros(request):
-    libros = libro = Libro.objects.filter(propietario=request.user)
+    libros = Libro.objects.filter(propietario=request.user)
     return render(request, 'libros/lista.html', {'libros': libros})
 
 
@@ -142,21 +143,14 @@ def crear_prestamo(request):
         libro_id = request.POST.get('libro')
         prestatario_id = request.POST.get('prestatario')
 
-        # Validar selección de libro y prestatario
-        libro = Libro.objects.filter(id=libro_id, propietario=request.user, estado='disponible').first()
-        prestatario = User.objects.filter(username=prestatario_id).first()
-
-        if libro and prestatario:
-            # Crear el préstamo
-            Prestamo.objects.create(
-                libro=libro,
-                prestatario=prestatario,
-                prestador=request.user
-            )
-            # Actualizar estado del libro
-            libro.estado = 'prestado'
-            libro.save()
-            return redirect('listar_prestamos')  # Redirige a la lista de préstamos
+        # Usar servicio para crear préstamo
+        prestamo, error = crear_prestamo_service(libro_id, prestatario_id, request.user)
+        
+        if prestamo:
+            messages.success(request, f"El libro '{prestamo.libro.nombre}' ha sido prestado exitosamente.")
+            return redirect('listar_prestamos')
+        else:
+            messages.error(request, error or "Error al crear el préstamo.")
 
     # Filtrar libros disponibles del usuario actual
     libros = Libro.objects.filter(propietario=request.user, estado='disponible')
@@ -203,19 +197,17 @@ def historial_prestamos(request):
 
 @login_required
 def marcar_devuelto(request, prestamo_id):
-    # Obtener el préstamo
-    prestamo = get_object_or_404(Prestamo, id=prestamo_id, prestador=request.user)
-
-    # Verificar que no esté devuelto
-    if prestamo.devuelto:
-        messages.warning(request, "Este préstamo ya ha sido marcado como devuelto.")
+    # Usar servicio para marcar préstamo como devuelto
+    prestamo, error = marcar_devuelto_service(prestamo_id, request.user)
+    
+    if prestamo:
+        if error:
+            messages.warning(request, error)
+        else:
+            messages.success(request, f"El libro '{prestamo.libro.nombre}' ha sido marcado como devuelto.")
     else:
-        # Actualizar el estado del préstamo y del libro
-        prestamo.devuelto = True
-        prestamo.libro.estado = 'disponible'
-        prestamo.libro.save()
-        prestamo.save()
-        messages.success(request, f"El libro '{prestamo.libro.nombre}' ha sido marcado como devuelto.")
+        messages.error(request, error or "Error al marcar el préstamo como devuelto.")
+        return redirect('listar_prestamos')
 
     return redirect('listar_prestamos')
 
