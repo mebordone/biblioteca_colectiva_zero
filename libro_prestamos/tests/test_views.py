@@ -5,7 +5,7 @@ import pytest
 from unittest.mock import patch
 from django.urls import reverse
 from django.contrib.auth.models import User
-from core.models import PasswordResetToken
+from core.models import PasswordResetToken, Libro, Prestamo
 from django.utils import timezone
 from datetime import timedelta
 
@@ -190,3 +190,155 @@ class TestCambiarPasswordDesdePerfil:
         # Debe mostrar error
         assert response.status_code == 200
         assert 'form' in response.context
+
+
+@pytest.mark.django_db
+class TestCrearPrestamoView:
+    """Tests de integración para la vista crear_prestamo (refactorizada con servicios)"""
+    
+    def test_get_request_requires_login(self, client):
+        """Test que requiere autenticación"""
+        response = client.get(reverse('crear_prestamo'))
+        assert response.status_code == 302  # Redirige a login
+    
+    def test_get_request_authenticated(self, client, user):
+        """Test que usuarios autenticados pueden acceder"""
+        client.force_login(user)
+        response = client.get(reverse('crear_prestamo'))
+        assert response.status_code == 200
+        assert 'libros' in response.context
+        assert 'usuarios' in response.context
+    
+    def test_post_request_creates_prestamo(self, client, user):
+        """Test que crea un préstamo exitosamente usando el servicio"""
+        prestatario = User.objects.create_user(
+            username='prestatario',
+            email='prestatario@test.com',
+            password='testpass123'
+        )
+        
+        libro = Libro.objects.create(
+            nombre='Test Book',
+            autor='Test Author',
+            propietario=user,
+            estado='disponible'
+        )
+        
+        client.force_login(user)
+        response = client.post(reverse('crear_prestamo'), {
+            'libro': libro.id,
+            'prestatario': prestatario.username
+        })
+        
+        # Debe redirigir a listar_prestamos
+        assert response.status_code == 302
+        assert response.url == reverse('listar_prestamos')
+        
+        # Verificar que se creó el préstamo
+        prestamo = Prestamo.objects.filter(libro=libro, prestatario=prestatario).first()
+        assert prestamo is not None
+        assert prestamo.prestador == user
+        
+        # Verificar que el libro cambió de estado
+        libro.refresh_from_db()
+        assert libro.estado == 'prestado'
+    
+    def test_post_request_with_error_shows_message(self, client, user):
+        """Test que muestra mensaje de error cuando el servicio falla"""
+        client.force_login(user)
+        response = client.post(reverse('crear_prestamo'), {
+            'libro': 999,  # Libro inexistente
+            'prestatario': 'usuario_inexistente'
+        }, follow=True)
+        
+        # Debe mostrar mensaje de error
+        messages = list(response.context.get('messages', []))
+        error_messages = [m for m in messages if m.tags == 'error']
+        assert len(error_messages) > 0
+
+
+@pytest.mark.django_db
+class TestMarcarDevueltoView:
+    """Tests de integración para la vista marcar_devuelto (refactorizada con servicios)"""
+    
+    def test_get_request_requires_login(self, client):
+        """Test que requiere autenticación"""
+        response = client.get(reverse('marcar_devuelto', args=[1]))
+        assert response.status_code == 302  # Redirige a login
+    
+    def test_post_request_marks_as_returned(self, client, user):
+        """Test que marca un préstamo como devuelto usando el servicio"""
+        prestatario = User.objects.create_user(
+            username='prestatario',
+            email='prestatario@test.com',
+            password='testpass123'
+        )
+        
+        libro = Libro.objects.create(
+            nombre='Test Book',
+            autor='Test Author',
+            propietario=user,
+            estado='prestado'
+        )
+        
+        prestamo = Prestamo.objects.create(
+            libro=libro,
+            prestatario=prestatario,
+            prestador=user,
+            devuelto=False
+        )
+        
+        client.force_login(user)
+        response = client.post(reverse('marcar_devuelto', args=[prestamo.id]))
+        
+        # Debe redirigir a listar_prestamos
+        assert response.status_code == 302
+        assert response.url == reverse('listar_prestamos')
+        
+        # Verificar que el préstamo fue marcado como devuelto
+        prestamo.refresh_from_db()
+        assert prestamo.devuelto is True
+        
+        # Verificar que el libro cambió de estado
+        libro.refresh_from_db()
+        assert libro.estado == 'disponible'
+    
+    def test_post_request_already_returned_shows_warning(self, client, user):
+        """Test que muestra advertencia si el préstamo ya está devuelto"""
+        prestatario = User.objects.create_user(
+            username='prestatario',
+            email='prestatario@test.com',
+            password='testpass123'
+        )
+        
+        libro = Libro.objects.create(
+            nombre='Test Book',
+            autor='Test Author',
+            propietario=user,
+            estado='disponible'
+        )
+        
+        prestamo = Prestamo.objects.create(
+            libro=libro,
+            prestatario=prestatario,
+            prestador=user,
+            devuelto=True
+        )
+        
+        client.force_login(user)
+        response = client.post(reverse('marcar_devuelto', args=[prestamo.id]), follow=True)
+        
+        # Debe mostrar mensaje de advertencia
+        messages = list(response.context.get('messages', []))
+        warning_messages = [m for m in messages if m.tags == 'warning']
+        assert len(warning_messages) > 0
+    
+    def test_post_request_nonexistent_prestamo_shows_error(self, client, user):
+        """Test que muestra error si el préstamo no existe"""
+        client.force_login(user)
+        response = client.post(reverse('marcar_devuelto', args=[999]), follow=True)
+        
+        # Debe mostrar mensaje de error
+        messages = list(response.context.get('messages', []))
+        error_messages = [m for m in messages if m.tags == 'error']
+        assert len(error_messages) > 0
