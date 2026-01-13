@@ -31,9 +31,9 @@ environ.Env.read_env(os.path.join(BASE_DIR.parent, '.env'))
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-fallback-key-for-development-only')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 # Logging Configuration
 LOGGING = {
