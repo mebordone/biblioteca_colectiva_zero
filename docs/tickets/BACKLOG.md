@@ -134,7 +134,21 @@ Este archivo contiene el backlog principal de tickets organizados por releases y
 
 ### [ALTA]
 
-- [ ] [PENDIENTE] TICKET-XXX: [Descripción de mejora técnica importante]
+- [x] [COMPLETADO] TICKET-017: Refactorizar vistas de autenticación moviendo lógica a services
+  - ✅ Mover lógica de negocio de vistas a services
+  - ✅ Simplificar vistas para que solo orquesten HTTP
+  - ✅ Crear auth_services.py con servicios de autenticación
+
+- [x] [COMPLETADO] TICKET-018: Agregar tests para carga masiva de libros
+  - ✅ Tests para vista cargar_libros_masivo()
+  - ✅ Tests para función procesar_excel_libros()
+  - ✅ Tests para generar_plantilla_excel()
+  - ✅ Cobertura completa con múltiples casos de prueba
+
+- [ ] [PENDIENTE] TICKET-019: Dividir vistas largas en funciones más pequeñas
+  - Dividir vistas largas después de TICKET-017
+  - Crear funciones auxiliares bien nombradas
+  - Mejorar legibilidad y mantenibilidad
 
 ---
 
@@ -150,7 +164,7 @@ Este archivo contiene el backlog principal de tickets organizados por releases y
 
 ## Estadísticas
 
-- **Total de tickets**: 16
-- **Completados**: 0
+- **Total de tickets**: 19
+- **Completados**: 2
 - **En progreso**: 0
-- **Pendientes**: 16
+- **Pendientes**: 17
