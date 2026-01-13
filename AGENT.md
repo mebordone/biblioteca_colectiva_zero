@@ -40,6 +40,28 @@ Toda funcionalidad sugerida o implementada debe:
 - [ ] Sin credenciales
 - [ ] Documentación actualizada si aplica
 
+## Definition of Done (DoD)
+Antes de cerrar un ticket, verificar:
+
+1. **Cumplimiento del objetivo**: La funcionalidad implementada cumple con el objetivo descrito en el ticket.
+2. **Tests unitarios**: Todos los tests unitarios pasan (`python manage.py test` o `pytest`).
+3. **Test manual propuesto**: Incluir en el ticket/PR una descripción clara de cómo un compañero puede reproducir y validar la funcionalidad manualmente:
+   - Pasos específicos a seguir.
+   - Datos de prueba necesarios (si aplica).
+   - Resultado esperado.
+   - Casos edge o escenarios alternativos a probar.
+
+**Ejemplo de test manual:**
+```
+Test manual - Cambio de contraseña:
+1. Ir a /perfil/
+2. Click en "Cambiar contraseña"
+3. Ingresar contraseña actual y nueva contraseña
+4. Verificar que se muestra mensaje de éxito
+5. Cerrar sesión y volver a iniciar con nueva contraseña
+6. Verificar que el login funciona correctamente
+```
+
 ## Nota para agentes
 Antes de proponer código nuevo:
 1. ¿Django ya lo resuelve?
