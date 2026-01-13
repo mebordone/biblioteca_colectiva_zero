@@ -145,7 +145,7 @@ class TestCambiarPasswordDesdePerfil:
         assert response.status_code == 200
         assert 'form' in response.context
     
-    @patch('core.views.enviar_email_confirmacion_cambio')
+    @patch('core.auth_services.enviar_email_confirmacion_cambio')
     def test_post_request_changes_password(self, mock_email, client, user):
         """Test que cambia la contraseña inmediatamente y envía email de confirmación"""
         old_password = 'testpass123'
@@ -170,7 +170,7 @@ class TestCambiarPasswordDesdePerfil:
         assert user.check_password('newpass123')
         assert not user.check_password(old_password)
         
-        # Verificar que se envió email de confirmación
+        # Verificar que se envió email de confirmación (ahora se llama desde el servicio)
         assert mock_email.called
         
         # Verificar que el usuario sigue autenticado después del cambio
