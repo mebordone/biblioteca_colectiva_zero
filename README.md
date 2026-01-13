@@ -30,18 +30,30 @@ El sistema tiene como objetivo facilitar la gestión de préstamos de libros fí
    pip install -r requirements.txt
    ```
 
-4. **Configurar la base de datos:**
+4. **Configurar variables de entorno:**
+   ```bash
+   # Crear archivo .env en la raíz del proyecto
+   # Generar SECRET_KEY con:
+   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+   
+   # Agregar al archivo .env:
+   SECRET_KEY=tu_secret_key_generada
+   ```
+   
+   **Nota:** El proyecto usa `django-environ` para manejar variables de entorno. Si no se configura `.env`, se usará una clave por defecto solo para desarrollo.
+
+5. **Configurar la base de datos:**
    ```bash
    cd libro_prestamos
    python manage.py migrate
    ```
 
-5. **Crear superusuario (opcional):**
+6. **Crear superusuario (opcional):**
    ```bash
    python manage.py createsuperuser
    ```
 
-6. **Ejecutar el servidor de desarrollo:**
+7. **Ejecutar el servidor de desarrollo:**
    ```bash
    python manage.py runserver
    ```

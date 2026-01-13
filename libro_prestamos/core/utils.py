@@ -332,7 +332,10 @@ def enviar_email_cambio_password(user, token):
         from django.urls import reverse
         
         # Obtener el dominio actual
-        if settings.ALLOWED_HOSTS:
+        if settings.DEBUG:
+            # En desarrollo, siempre usar 127.0.0.1:8000
+            domain = '127.0.0.1:8000'
+        elif settings.ALLOWED_HOSTS:
             domain = settings.ALLOWED_HOSTS[0]
         else:
             domain = '127.0.0.1:8000'
@@ -507,7 +510,10 @@ def enviar_email_cambio_email(user, token, new_email):
         from django.urls import reverse
         
         # Obtener el dominio actual
-        if settings.ALLOWED_HOSTS:
+        if settings.DEBUG:
+            # En desarrollo, siempre usar 127.0.0.1:8000
+            domain = '127.0.0.1:8000'
+        elif settings.ALLOWED_HOSTS:
             domain = settings.ALLOWED_HOSTS[0]
         else:
             domain = '127.0.0.1:8000'
