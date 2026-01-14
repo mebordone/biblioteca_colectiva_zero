@@ -15,7 +15,7 @@ Guía completa para agentes/IA y colaboradores al trabajar en este proyecto Djan
 
 ---
 
-## Flujo de Trabajo del Desarrollador
+## Flujo de Trabajo del Agente
 
 ### Ciclo de Desarrollo Completo
 
@@ -24,9 +24,8 @@ Guía completa para agentes/IA y colaboradores al trabajar en este proyecto Djan
 3. **Desarrollar** la funcionalidad siguiendo los principios y estándares
 4. **Escribir tests** antes de hacer commit (o durante el desarrollo)
 5. **Ejecutar tests** antes de cada commit: `pytest` o `python manage.py test`
-6. **Peer review**: El desarrollador revisa su propio código antes de merge
-7. **Verificar DoD**: Cumplir con el Definition of Done
-8. **Merge a develop**: Una vez aprobado, mergear a `develop`
+6. **Verificar DoD**: Cumplir con el Definition of Done
+7. **Merge a develop**: Una vez aprobado, mergear a `develop`
 
 ### Commits
 
@@ -242,15 +241,17 @@ Test manual - Cambio de contraseña:
 6. Verificar que el login funciona correctamente
 ```
 
-### 4. Peer Review
-- El desarrollador revisa su propio código antes de merge
-- Verifica que el código sigue los principios y estándares
-- Confirma que no hay código muerto, comentarios innecesarios, o duplicación
-
-### 5. Documentación
+### 4. Documentación
 - README actualizado si cambia algo del sistema (instalación, configuración, uso)
 - Código autoexplicativo (no requiere documentación adicional si el código es claro)
 - Guías de usuario actualizadas si cambia funcionalidad visible
+
+### 5. Peer Review
+- El agente le pide al desarrollador que revise el codigo
+- El desarrollador reproduce los cambios siguiendo y test manuales antes de merge, 
+- Si hay cambios de documentacion revisa que sea consistente con el sistema actual
+- El desarrollador acepta los cambios y el merge
+- Si el desarrollador no cepta el peer review le hace una devolucion al agente para que retome el trabajo para completar el ticket.
 
 ---
 
@@ -324,4 +325,4 @@ Antes de proponer código nuevo, el agente debe verificar:
 
 ---
 
-**Última actualización**: Diciembre 2024
+**Última actualización**: Enero 2025
