@@ -8,6 +8,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
+            <!-- La Biblioteca -->
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'listar_libros' %}active{% endif %}" href="{% url 'listar_libros' %}">
+                    <i class="bi bi-search"></i> La Biblioteca
+                </a>
+            </li>
             <!-- Libros -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="librosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -46,6 +52,21 @@
         </ul>
         <!-- Usuario -->
         <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'como_ayudar' %}active{% endif %}" href="{% url 'como_ayudar' %}">
+                    <i class="bi bi-heart-handshake"></i> Cómo Ayudar
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'sobre_nosotros' %}active{% endif %}" href="{% url 'sobre_nosotros' %}">
+                    <i class="bi bi-info-circle"></i> Sobre Nosotros
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'preguntas_frecuentes' %}active{% endif %}" href="{% url 'preguntas_frecuentes' %}">
+                    <i class="bi bi-question-circle"></i> Preguntas Frecuentes
+                </a>
+            </li>
             {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="usuarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

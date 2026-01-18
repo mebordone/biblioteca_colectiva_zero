@@ -34,3 +34,15 @@ def home(request):
         }
     
     return render(request, 'home.html', context)
+
+def preguntas_frecuentes(request):
+    """Vista para mostrar la página de preguntas frecuentes"""
+    return render(request, 'preguntas_frecuentes.html')
+
+def sobre_nosotros(request):
+    """Vista para mostrar la página sobre nosotros"""
+    return render(request, 'sobre_nosotros.html')
+
+def como_ayudar(request):
+    """Vista para mostrar la página de cómo ayudar a la Biblioteca Colectiva"""
+    return render(request, 'como_ayudar.html')

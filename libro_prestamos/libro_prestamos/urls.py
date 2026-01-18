@@ -23,6 +23,9 @@ from core import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('preguntas-frecuentes/', views.preguntas_frecuentes, name='preguntas_frecuentes'),
+    path('sobre-nosotros/', views.sobre_nosotros, name='sobre_nosotros'),
+    path('como-ayudar/', views.como_ayudar, name='como_ayudar'),
     path("admin/", admin.site.urls),
     path('libros/', include('libros.urls')),
     path('prestamos/', include('prestamos.urls')),
