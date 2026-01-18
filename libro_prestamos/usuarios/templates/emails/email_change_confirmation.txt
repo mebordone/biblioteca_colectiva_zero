@@ -1,0 +1,21 @@
+Correo Electrónico Cambiado - Biblioteca Colectiva
+
+Hola {{ user.get_full_name|default:user.username }},
+
+Tu correo electrónico ha sido cambiado exitosamente.
+
+Correo anterior: {{ old_email }}
+Correo nuevo: {{ user.email }}
+
+A partir de ahora, usarás este nuevo correo electrónico para:
+- Iniciar sesión en tu cuenta
+- Recibir notificaciones del sistema
+- Recuperar tu contraseña
+
+IMPORTANTE: Si no realizaste este cambio, por favor contacta al soporte inmediatamente.
+
+Saludos,
+Equipo de Biblioteca Colectiva
+
+---
+Este es un email automático, por favor no respondas a este mensaje.

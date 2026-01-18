@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="bi bi-person-plus"></i> Crear una cuenta</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <h5 class="mb-3"><i class="bi bi-person"></i> Información de usuario</h5>
+                        
+                        <div class="mb-3">
+                            <label for="{{ user_form.username.id_for_label }}" class="form-label">
+                                {{ user_form.username.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ user_form.username }}
+                            {% if user_form.username.help_text %}
+                                <small class="form-text text-muted">
+                                    <i class="bi bi-info-circle"></i> {{ user_form.username.help_text }}
+                                </small>
+                            {% endif %}
+                            {% if user_form.username.errors %}
+                                <div class="text-danger small">
+                                    {{ user_form.username.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ user_form.email.id_for_label }}" class="form-label">
+                                {{ user_form.email.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ user_form.email }}
+                            {% if user_form.email.help_text %}
+                                <small class="form-text text-muted">
+                                    <i class="bi bi-info-circle"></i> {{ user_form.email.help_text }}
+                                </small>
+                            {% endif %}
+                            {% if user_form.email.errors %}
+                                <div class="text-danger small">
+                                    {{ user_form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ user_form.first_name.id_for_label }}" class="form-label">
+                                    {{ user_form.first_name.label }}
+                                </label>
+                                {{ user_form.first_name }}
+                                {% if user_form.first_name.errors %}
+                                    <div class="text-danger small">
+                                        {{ user_form.first_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ user_form.last_name.id_for_label }}" class="form-label">
+                                    {{ user_form.last_name.label }}
+                                </label>
+                                {{ user_form.last_name }}
+                                {% if user_form.last_name.errors %}
+                                    <div class="text-danger small">
+                                        {{ user_form.last_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ user_form.password1.id_for_label }}" class="form-label">
+                                {{ user_form.password1.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ user_form.password1 }}
+                            {% if user_form.password1.help_text %}
+                                <small class="form-text text-muted">
+                                    <i class="bi bi-info-circle"></i> {{ user_form.password1.help_text }}
+                                </small>
+                            {% endif %}
+                            {% if user_form.password1.errors %}
+                                <div class="text-danger small">
+                                    {{ user_form.password1.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ user_form.password2.id_for_label }}" class="form-label">
+                                {{ user_form.password2.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ user_form.password2 }}
+                            {% if user_form.password2.help_text %}
+                                <small class="form-text text-muted">
+                                    <i class="bi bi-info-circle"></i> {{ user_form.password2.help_text }}
+                                </small>
+                            {% endif %}
+                            {% if user_form.password2.errors %}
+                                <div class="text-danger small">
+                                    {{ user_form.password2.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h5 class="mb-3"><i class="bi bi-geo-alt"></i> Información del perfil</h5>
+
+                        <div class="mb-3">
+                            <label for="{{ perfil_form.telefono.id_for_label }}" class="form-label">
+                                {{ perfil_form.telefono.label }}
+                            </label>
+                            {{ perfil_form.telefono }}
+                            {% if perfil_form.telefono.help_text %}
+                                <small class="form-text text-muted">
+                                    <i class="bi bi-info-circle"></i> {{ perfil_form.telefono.help_text }}
+                                </small>
+                            {% endif %}
+                            {% if perfil_form.telefono.errors %}
+                                <div class="text-danger small">
+                                    {{ perfil_form.telefono.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ perfil_form.ciudad.id_for_label }}" class="form-label">
+                                    {{ perfil_form.ciudad.label }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ perfil_form.ciudad }}
+                                {% if perfil_form.ciudad.help_text %}
+                                    <small class="form-text text-muted">
+                                        <i class="bi bi-info-circle"></i> {{ perfil_form.ciudad.help_text }}
+                                    </small>
+                                {% endif %}
+                                {% if perfil_form.ciudad.errors %}
+                                    <div class="text-danger small">
+                                        {{ perfil_form.ciudad.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ perfil_form.pais.id_for_label }}" class="form-label">
+                                    {{ perfil_form.pais.label }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ perfil_form.pais }}
+                                {% if perfil_form.pais.help_text %}
+                                    <small class="form-text text-muted">
+                                        <i class="bi bi-info-circle"></i> {{ perfil_form.pais.help_text }}
+                                    </small>
+                                {% endif %}
+                                {% if perfil_form.pais.errors %}
+                                    <div class="text-danger small">
+                                        {{ perfil_form.pais.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-check-circle"></i> Registrar
+                            </button>
+                            <a href="{% url 'login' %}" class="btn btn-link text-center">
+                                ¿Ya tienes cuenta? Inicia sesión
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

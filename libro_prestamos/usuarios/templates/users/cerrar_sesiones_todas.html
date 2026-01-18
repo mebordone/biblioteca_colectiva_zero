@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h3 class="mb-0"><i class="bi bi-shield-exclamation"></i> Cerrar Sesión en Todos los Dispositivos</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <strong>¿Estás seguro?</strong>
+                        <p class="mb-0 mt-2">
+                            Esta acción cerrará todas las sesiones activas en otros dispositivos. 
+                            Tu sesión actual permanecerá activa hasta que cierres sesión manualmente.
+                        </p>
+                    </div>
+                    
+                    <p class="text-muted">
+                        Esto es útil si:
+                    </p>
+                    <ul>
+                        <li>Has perdido acceso a un dispositivo</li>
+                        <li>Sospechas que alguien más tiene acceso a tu cuenta</li>
+                        <li>Quieres asegurarte de que solo estás conectado desde este dispositivo</li>
+                    </ul>
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'perfil' %}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-shield-exclamation"></i> Cerrar Todas las Sesiones
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
