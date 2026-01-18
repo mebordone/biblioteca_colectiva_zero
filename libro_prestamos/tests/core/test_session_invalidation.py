@@ -5,9 +5,9 @@ import pytest
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.test import RequestFactory
-from core.models import Perfil
+from usuarios.models import Perfil
 from core.middleware import SessionInvalidationMiddleware
-from core.views import cerrar_sesiones_todas
+from usuarios.views import cerrar_sesiones_todas
 from django.urls import reverse
 
 

@@ -16,38 +16,22 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from core import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('preguntas-frecuentes/', views.preguntas_frecuentes, name='preguntas_frecuentes'),
+    path('sobre-nosotros/', views.sobre_nosotros, name='sobre_nosotros'),
+    path('como-ayudar/', views.como_ayudar, name='como_ayudar'),
     path("admin/", admin.site.urls),
-    path('libros/', views.listar_libros, name='listar_libros'),
-    path('libros/my', views.listar_mis_libros, name='listar_mis_libros'),
-    path('libros/cargar/', views.cargar_libro, name='cargar_libro'),
-    path('libros/cargar-masivo/', views.cargar_libros_masivo, name='cargar_libros_masivo'),
-    path('libros/descargar-plantilla/', views.descargar_plantilla_excel, name='descargar_plantilla_excel'),
-    path('libros/ver/<int:id>/', views.libro_detalle, name='libro_detalle'),
-    path('libros/<int:id>/editar/', views.editar_libro, name='editar_libro'),
-    path('libros/<int:id>/eliminar/', views.eliminar_libro, name='eliminar_libro'),
-    path('prestamos/crear', views.crear_prestamo, name='crear_prestamo'),
-    path('prestamos/', views.listar_prestamos, name='listar_prestamos'),
-    path('prestamos/historial', views.historial_prestamos, name='historial_prestamos'),
-    path('prestamos/marcar_devuelto/<int:prestamo_id>/', views.marcar_devuelto, name='marcar_devuelto'),
-    path('login/', views.login_view, name='login'),
-    path('accounts/login/', views.login_view, name='login'),
-    path('registro/', views.registro, name='registro'),
-    path('logout/', views.logout_view, name='logout'),
-    path('perfil/', views.perfil, name='perfil'),
-    # Cambio de contraseña
-    path('password/solicitar/', views.solicitar_cambio_password, name='solicitar_cambio_password'),
-    path('password/confirmar/<str:token>/', views.confirmar_cambio_password, name='confirmar_cambio_password'),
-    path('password/cambiar/', views.cambiar_password_desde_perfil, name='cambiar_password_desde_perfil'),
-    
-    # Cambio de email
-    path('email/solicitar/', views.solicitar_cambio_email, name='solicitar_cambio_email'),
-    path('email/confirmar/<str:token>/', views.confirmar_cambio_email, name='confirmar_cambio_email'),
-    
-    # Seguridad
-    path('security/cerrar-sesiones/', views.cerrar_sesiones_todas, name='cerrar_sesiones_todas'),
+    path('libros/', include('libros.urls')),
+    path('prestamos/', include('prestamos.urls')),
+    path('', include('usuarios.urls')),
 ]
+
+# Servir archivos estáticos en desarrollo
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0] if settings.STATICFILES_DIRS else None)

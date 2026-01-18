@@ -4,7 +4,8 @@ Separa la lógica de negocio de las vistas según AGENT.md.
 """
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from .models import Libro, Prestamo
+from libros.models import Libro
+from .models import Prestamo
 
 
 def crear_prestamo_service(libro_id, prestatario_id, prestador):

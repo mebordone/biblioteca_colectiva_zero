@@ -3,7 +3,7 @@ Configuración compartida para todos los tests
 """
 import pytest
 from django.contrib.auth.models import User
-from core.models import Perfil, PasswordResetToken
+from usuarios.models import Perfil, PasswordResetToken
 from django.utils import timezone
 from datetime import timedelta
 

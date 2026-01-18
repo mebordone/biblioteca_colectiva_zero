@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Preguntas Frecuentes - Biblioteca Colectiva{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <h1 class="mb-4">
+                <i class="bi bi-question-circle text-primary"></i> Preguntas Frecuentes
+            </h1>
+            
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> 
+                <strong>¡Bienvenid@ al sistema de préstamos colaborativos!</strong> Esta guía te ayudará a entender cómo usar la plataforma y responderá a preguntas comunes para que tu experiencia sea lo más sencilla y clara posible. Si tienes dudas adicionales, ¡no dudes en consultarnos!
+            </div>
+
+            <!-- Tabla de Contenidos -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-list-ul"></i> Tabla de Contenidos</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="#registro" class="text-decoration-none"><i class="bi bi-arrow-right"></i> Cómo Registrarse</a></li>
+                        <li><a href="#añadir-libros" class="text-decoration-none"><i class="bi bi-arrow-right"></i> Cómo Añadir Libros</a></li>
+                        <li><a href="#carga-masiva" class="text-decoration-none"><i class="bi bi-arrow-right"></i> Carga Masiva de Libros desde Excel</a></li>
+                        <li><a href="#prestar-libro" class="text-decoration-none"><i class="bi bi-arrow-right"></i> Cómo Prestar un Libro</a></li>
+                        <li><a href="#preguntas-frecuentes" class="text-decoration-none"><i class="bi bi-arrow-right"></i> Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cómo Registrarse -->
+            <section id="registro" class="mb-5">
+                <h2 class="border-bottom pb-2 mb-3">
+                    <i class="bi bi-person-plus text-primary"></i> Cómo Registrarse
+                </h2>
+                <ol>
+                    <li>Ve a la página principal y haz clic en <strong>Registrarme</strong>.</li>
+                    <li>Completa el formulario con tus datos:
+                        <ul>
+                            <li>Nombre de usuario</li>
+                            <li>Contraseña</li>
+                            <li>Email</li>
+                            <li>Información adicional (ciudad, país, teléfono, etc.)</li>
+                        </ul>
+                    </li>
+                    <li>Haz clic en <strong>Enviar</strong> para completar tu registro.</li>
+                    <li>Te lleva a la página de inicio para iniciar sesión.</li>
+                </ol>
+            </section>
+
+            <!-- Cómo Añadir Libros -->
+            <section id="añadir-libros" class="mb-5">
+                <h2 class="border-bottom pb-2 mb-3">
+                    <i class="bi bi-book text-primary"></i> Cómo Añadir Libros
+                </h2>
+                
+                <h3 class="mt-4">Carga Individual de Libros</h3>
+                <ol>
+                    <li>Inicia sesión en tu cuenta.</li>
+                    <li>Ve al menú <strong>Libros</strong> y selecciona <strong>Cargar Libro</strong>.</li>
+                    <li>Completa la información del libro, como:
+                        <ul>
+                            <li>Nombre (obligatorio)</li>
+                            <li>Autor (obligatorio)</li>
+                            <li>Editorial (opcional)</li>
+                            <li>ISBN (opcional)</li>
+                            <li>Descripción (opcional)</li>
+                        </ul>
+                    </li>
+                    <li>Haz clic en <strong>Guardar</strong> para agregar el libro a tu biblioteca personal.</li>
+                </ol>
+            </section>
+
+            <!-- Carga Masiva -->
+            <section id="carga-masiva" class="mb-5">
+                <h2 class="border-bottom pb-2 mb-3">
+                    <i class="bi bi-file-earmark-excel text-primary"></i> Carga Masiva de Libros desde Excel
+                </h2>
+                <p>Para agregar múltiples libros de una vez, puedes usar la funcionalidad de carga masiva:</p>
+                <ol>
+                    <li>Inicia sesión en tu cuenta.</li>
+                    <li>Ve al menú <strong>Libros</strong> y selecciona <strong>Carga Masiva (Excel)</strong>.</li>
+                    <li>Descarga la plantilla Excel de ejemplo haciendo clic en el botón <strong>"Descargar Plantilla Excel"</strong>.</li>
+                    <li>Completa la plantilla con tus libros:
+                        <ul>
+                            <li><strong>Columnas obligatorias:</strong> Nombre, Autor</li>
+                            <li><strong>Columnas opcionales:</strong> Editorial, ISBN, Descripción</li>
+                            <li>La primera fila debe contener los encabezados</li>
+                            <li>Cada fila siguiente representa un libro</li>
+                        </ul>
+                    </li>
+                    <li>Guarda el archivo Excel (.xlsx o .xls).</li>
+                    <li>En la página de carga masiva, haz clic en <strong>"Elegir archivo"</strong> y selecciona tu archivo Excel.</li>
+                    <li>Haz clic en <strong>"Procesar Archivo"</strong>.</li>
+                    <li>Revisa los resultados:
+                        <ul>
+                            <li><strong>Libros creados:</strong> Se mostrarán los libros que se agregaron exitosamente</li>
+                            <li><strong>Duplicados:</strong> Se mostrarán los libros que ya existen (no se crearán)</li>
+                            <li><strong>Errores:</strong> Se mostrarán los problemas encontrados en el archivo con el número de fila</li>
+                        </ul>
+                    </li>
+                </ol>
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    <strong>Nota:</strong> El sistema detecta automáticamente las columnas, incluso si tienen nombres ligeramente diferentes (con o sin acentos, mayúsculas/minúsculas).
+                </div>
+            </section>
+
+            <!-- Cómo Prestar un Libro -->
+            <section id="prestar-libro" class="mb-5">
+                <h2 class="border-bottom pb-2 mb-3">
+                    <i class="bi bi-share text-primary"></i> Cómo Prestar un Libro en Préstamo
+                </h2>
+                <ol>
+                    <li>Inicia sesión en tu cuenta.</li>
+                    <li>Ve al menú <strong>Prestamos</strong> y selecciona <strong>Prestar Libro</strong>.</li>
+                    <li>Selecciona el libro que deseas prestar.</li>
+                    <li>Selecciona el usuario al que deseas prestar el libro.</li>
+                    <li>Haz clic en <strong>Confirmar Préstamo</strong> para confirmar.</li>
+                </ol>
+
+                <h3 class="mt-4">Mis Préstamos y Gestionar Devolución de Libros</h3>
+                <ul>
+                    <li>En el menú, selecciona <strong>"Mis Préstamos"</strong> para ver los libros que has solicitado y que tienes prestados actualmente.</li>
+                    <li>Para devolver un libro, ve al detalle del préstamo y utiliza la opción <strong>"Marcar como devuelto"</strong>.</li>
+                </ul>
+
+                <h3 class="mt-4">Historial de Préstamos</h3>
+                <ul>
+                    <li>Consulta el historial de préstamos realizados o recibidos desde la sección <strong>"Historial de Préstamos"</strong>.</li>
+                    <li>Aquí se mostrarán todos los préstamos completados o cancelados.</li>
+                </ul>
+            </section>
+
+            <!-- Preguntas Frecuentes -->
+            <section id="preguntas-frecuentes" class="mb-5">
+                <h2 class="border-bottom pb-2 mb-3">
+                    <i class="bi bi-question-circle text-primary"></i> Preguntas Frecuentes
+                </h2>
+
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                ¿Qué pasa si olvidé mi contraseña?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Por ahora no está implementada la recuperación de contraseña, contacta al administrador del sistema.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                ¿Puedo editar la información de un libro?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sí, ve a <strong>Mis Libros</strong>, selecciona el libro que deseas editar y actualiza la información.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                ¿Cómo pido un libro prestado?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Por ahora no está implementada la funcionalidad de pedidos, si conoces al anfitrión del libro pídeselo y que él gestione el préstamo en la plataforma.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                ¿Puedo cargar muchos libros a la vez?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sí, puedes usar la funcionalidad de <strong>Carga Masiva (Excel)</strong> desde el menú de Libros. Descarga la plantilla, completa tus libros en Excel y súbelos todos de una vez. El sistema te mostrará cuántos se crearon, cuáles son duplicados y si hubo algún error.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                ¿Qué pasa si tengo libros duplicados en mi archivo Excel?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                El sistema detecta automáticamente los duplicados y no los creará. Te mostrará qué libros son duplicados y por qué (por ISBN o por nombre+autor). Los duplicados no se crearán, pero el resto de los libros válidos sí se procesarán.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                ¿Qué formato debe tener el archivo Excel?
+                            </button>
+                        </h2>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                El archivo debe ser .xlsx o .xls. La primera fila debe contener los encabezados de las columnas. Las columnas obligatorias son "Nombre" y "Autor". Las opcionales son "Editorial", "ISBN" y "Descripción". Puedes descargar una plantilla de ejemplo desde la página de carga masiva.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                                ¿Qué pasa si mi archivo Excel tiene errores?
+                            </button>
+                        </h2>
+                        <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                El sistema procesará todas las filas válidas y te mostrará un reporte detallado de:
+                                <ul>
+                                    <li>Los libros que se crearon exitosamente</li>
+                                    <li>Los libros duplicados (que no se crearon)</li>
+                                    <li>Los errores encontrados, indicando el número de fila y el motivo del error</li>
+                                </ul>
+                                Puedes corregir los errores en tu archivo Excel y volver a subirlo.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Actualización de la Guía -->
+            <section class="mb-5">
+                <div class="alert alert-secondary">
+                    <i class="bi bi-info-circle"></i> 
+                    <strong>Actualización de la Guía:</strong> Esta guía puede actualizarse con frecuencia para reflejar nuevas funcionalidades o resolver dudas recurrentes. Si encuentras algún error o tienes sugerencias, contáctanos.
+                </div>
+            </section>
+
+            <!-- Botón para volver arriba -->
+            <div class="text-center mb-4">
+                <a href="#top" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-up-circle"></i> Volver arriba
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

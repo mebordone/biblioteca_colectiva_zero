@@ -4,8 +4,8 @@ Tests para las utilidades de email de cambio de email
 import pytest
 from unittest.mock import patch, MagicMock
 from django.contrib.auth.models import User
-from core.models import EmailChangeToken, Perfil
-from core.utils import enviar_email_cambio_email, enviar_email_confirmacion_cambio_email
+from usuarios.models import EmailChangeToken, Perfil
+from usuarios.utils import enviar_email_cambio_email, enviar_email_confirmacion_cambio_email
 
 
 @pytest.fixture
@@ -34,7 +34,7 @@ def email_change_token(user):
 class TestEnviarEmailCambioEmail:
     """Tests para la función enviar_email_cambio_email"""
     
-    @patch('core.utils.EmailMessage')
+    @patch('usuarios.utils.EmailMessage')
     def test_envia_email_exitosamente(self, mock_email_message, user, email_change_token):
         """Test que se envía el email correctamente"""
         mock_email_instance = mock_email_message.return_value
@@ -50,7 +50,7 @@ class TestEnviarEmailCambioEmail:
         assert 'Confirmar cambio' in call_args[1]['subject']
         assert 'newemail@example.com' in call_args[1]['to']
     
-    @patch('core.utils.EmailMessage')
+    @patch('usuarios.utils.EmailMessage')
     def test_maneja_error_de_envio(self, mock_email_message, user, email_change_token):
         """Test que maneja errores de envío"""
         mock_email_instance = mock_email_message.return_value
@@ -60,8 +60,8 @@ class TestEnviarEmailCambioEmail:
         
         assert result == False
     
-    @patch('core.utils.render_to_string')
-    @patch('core.utils.EmailMessage')
+    @patch('usuarios.utils.render_to_string')
+    @patch('usuarios.utils.EmailMessage')
     def test_genera_url_correcta(self, mock_email_message, mock_render, user, email_change_token):
         """Test que genera la URL correcta para el token"""
         mock_email_instance = mock_email_message.return_value
@@ -88,7 +88,7 @@ class TestEnviarEmailCambioEmail:
 class TestEnviarEmailConfirmacionCambioEmail:
     """Tests para la función enviar_email_confirmacion_cambio_email"""
     
-    @patch('core.utils.EmailMessage')
+    @patch('usuarios.utils.EmailMessage')
     def test_envia_email_confirmacion(self, mock_email_message, user):
         """Test que se envía email de confirmación"""
         mock_email_instance = mock_email_message.return_value
@@ -104,7 +104,7 @@ class TestEnviarEmailConfirmacionCambioEmail:
         assert 'cambiado exitosamente' in call_args[1]['subject']
         assert user.email in call_args[1]['to']
     
-    @patch('core.utils.EmailMessage')
+    @patch('usuarios.utils.EmailMessage')
     def test_maneja_error_de_envio_confirmacion(self, mock_email_message, user):
         """Test que maneja errores en envío de confirmación"""
         mock_email_instance = mock_email_message.return_value

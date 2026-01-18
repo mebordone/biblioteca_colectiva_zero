@@ -6,8 +6,8 @@ from unittest.mock import patch, MagicMock
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
-from core.models import PasswordResetToken, EmailChangeToken, Perfil
-from core.auth_services import (
+from usuarios.models import PasswordResetToken, EmailChangeToken, Perfil
+from usuarios.services import (
     solicitar_cambio_password_service,
     confirmar_cambio_password_service,
     cambiar_password_desde_perfil_service,
@@ -20,7 +20,7 @@ class TestSolicitarCambioPasswordService:
     """Tests para solicitar_cambio_password_service"""
     
     @pytest.mark.django_db
-    @patch('core.auth_services.enviar_email_cambio_password')
+    @patch('usuarios.services.enviar_email_cambio_password')
     def test_exitoso_con_usuario(self, mock_enviar_email, user):
         """Test caso exitoso con usuario autenticado"""
         mock_enviar_email.return_value = True
@@ -33,7 +33,7 @@ class TestSolicitarCambioPasswordService:
         mock_enviar_email.assert_called_once()
     
     @pytest.mark.django_db
-    @patch('core.auth_services.enviar_email_cambio_password')
+    @patch('usuarios.services.enviar_email_cambio_password')
     def test_exitoso_con_email(self, mock_enviar_email, user):
         """Test caso exitoso con email"""
         mock_enviar_email.return_value = True
@@ -54,7 +54,7 @@ class TestSolicitarCambioPasswordService:
         assert error is None
     
     @pytest.mark.django_db
-    @patch('core.auth_services.enviar_email_cambio_password')
+    @patch('usuarios.services.enviar_email_cambio_password')
     def test_error_envio_email(self, mock_enviar_email, user):
         """Test cuando hay error al enviar email"""
         mock_enviar_email.return_value = False
@@ -65,7 +65,7 @@ class TestSolicitarCambioPasswordService:
         assert error == "Error al enviar email"
     
     @pytest.mark.django_db
-    @patch('core.auth_services.enviar_email_cambio_password')
+    @patch('usuarios.services.enviar_email_cambio_password')
     def test_excepcion_envio_email_debug(self, mock_enviar_email, user, settings):
         """Test cuando hay excepción al enviar email en modo DEBUG"""
         settings.DEBUG = True
@@ -83,7 +83,7 @@ class TestConfirmarCambioPasswordService:
     """Tests para confirmar_cambio_password_service"""
     
     @pytest.mark.django_db
-    @patch('core.auth_services.enviar_email_confirmacion_cambio')
+    @patch('usuarios.services.enviar_email_confirmacion_cambio')
     def test_exitoso(self, mock_enviar_email, password_reset_token):
         """Test caso exitoso"""
         mock_enviar_email.return_value = True
@@ -139,7 +139,7 @@ class TestCambiarPasswordDesdePerfilService:
     """Tests para cambiar_password_desde_perfil_service"""
     
     @pytest.mark.django_db
-    @patch('core.auth_services.enviar_email_confirmacion_cambio')
+    @patch('usuarios.services.enviar_email_confirmacion_cambio')
     def test_exitoso(self, mock_enviar_email, user):
         """Test caso exitoso"""
         mock_enviar_email.return_value = True
@@ -181,7 +181,7 @@ class TestSolicitarCambioEmailService:
     """Tests para solicitar_cambio_email_service"""
     
     @pytest.mark.django_db
-    @patch('core.auth_services.enviar_email_cambio_email')
+    @patch('usuarios.services.enviar_email_cambio_email')
     def test_exitoso(self, mock_enviar_email, user):
         """Test caso exitoso"""
         mock_enviar_email.return_value = True
@@ -238,7 +238,7 @@ class TestConfirmarCambioEmailService:
     """Tests para confirmar_cambio_email_service"""
     
     @pytest.mark.django_db
-    @patch('core.auth_services.enviar_email_confirmacion_cambio_email')
+    @patch('usuarios.services.enviar_email_confirmacion_cambio_email')
     def test_exitoso(self, mock_enviar_email, user):
         """Test caso exitoso"""
         mock_enviar_email.return_value = True

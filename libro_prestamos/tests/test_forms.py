@@ -3,7 +3,7 @@ Tests para los formularios de cambio de contraseña
 """
 import pytest
 from django.contrib.auth.models import User
-from core.forms import (
+from usuarios.forms import (
     PasswordChangeRequestForm,
     PasswordChangeConfirmForm,
     PasswordChangeFromProfileForm

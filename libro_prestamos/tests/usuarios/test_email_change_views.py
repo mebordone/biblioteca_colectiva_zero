@@ -4,7 +4,7 @@ Tests para las vistas de cambio de email
 import pytest
 from django.urls import reverse
 from django.contrib.auth.models import User
-from core.models import EmailChangeToken, Perfil
+from usuarios.models import EmailChangeToken, Perfil
 from django.utils import timezone
 from datetime import timedelta
 

@@ -6,9 +6,9 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from io import BytesIO
 from openpyxl import Workbook
-from core.models import Libro
-from core.utils import procesar_excel_libros, generar_plantilla_excel
-from core.views import cargar_libros_masivo, descargar_plantilla_excel
+from libros.models import Libro
+from libros.utils import procesar_excel_libros, generar_plantilla_excel
+from libros.views import cargar_libros_masivo, descargar_plantilla_excel
 
 
 class TestProcesarExcelLibros:

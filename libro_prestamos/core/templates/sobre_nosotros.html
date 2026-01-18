@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sobre Nosotros - Biblioteca Colectiva{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-lg-12 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-3">
+                <i class="bi bi-book-heart"></i> Biblioteca Colectiva
+            </h1>
+            <p class="lead text-muted">
+                Un espacio para compartir libros, crear conexiones y construir comunidad
+            </p>
+        </div>
+    </div>
+
+    <!-- Historia de Origen -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-5">
+                    <h2 class="text-primary mb-4">
+                        <i class="bi bi-lightbulb"></i> Nuestra Historia
+                    </h2>
+                    <div class="row">
+                        <div class="col-md-2 text-center mb-3 mb-md-0">
+                            <i class="bi bi-quote display-1 text-muted opacity-25"></i>
+                        </div>
+                        <div class="col-md-10">
+                            <p class="fs-5 lh-lg mb-4">
+                                La página surgió a partir de un día que estaba viendo la biblioteca y me pregunté: 
+                                <strong class="text-primary">¿Cómo no saber qué libros tienen mis amigos así se los puedo pedir prestados?</strong>
+                            </p>
+                            <p class="fs-5 lh-lg">
+                                De ahí lo que siguió: usar el libro como excusa para encontrarnos y compartir nuestros libros.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Misión y Propósito -->
+    <div class="row mb-5">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-bullseye display-4 text-primary"></i>
+                    </div>
+                    <h3 class="text-center mb-3">Nuestra Misión</h3>
+                    <p class="text-center">
+                        Facilitar la gestión de préstamos de libros físicos entre personas, 
+                        promoviendo la colaboración y el intercambio dentro de comunidades. 
+                        Crear un espacio donde los libros sean el puente para conectarnos y compartir experiencias.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-heart display-4 text-danger"></i>
+                    </div>
+                    <h3 class="text-center mb-3">Nuestro Propósito</h3>
+                    <p class="text-center">
+                        Más que una plataforma de préstamos, somos una comunidad que cree en el poder 
+                        de compartir conocimiento. Cada libro prestado es una oportunidad de encuentro, 
+                        una excusa para conversar y una forma de fortalecer nuestros lazos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Qué Ofrecemos -->
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <h2 class="text-center mb-4">
+                <i class="bi bi-stars text-primary"></i> ¿Qué Ofrecemos?
+            </h2>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-book display-4 text-primary mb-3"></i>
+                    <h4 class="mb-3">Gestión de Libros</h4>
+                    <p>
+                        Carga tus libros de forma individual o masiva mediante Excel. 
+                        Organiza tu biblioteca personal y compártela con otros usuarios.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-share display-4 text-success mb-3"></i>
+                    <h4 class="mb-3">Sistema de Préstamos</h4>
+                    <p>
+                        Registra préstamos de manera sencilla. Mantén un historial completo 
+                        de los libros que has prestado y recibido.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-people display-4 text-info mb-3"></i>
+                    <h4 class="mb-3">Comunidad</h4>
+                    <p>
+                        Conecta con otros lectores, descubre qué libros tienen tus amigos 
+                        y crea una red de intercambio cultural.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Funcionalidades Principales -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-gear"></i> Funcionalidades Principales
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <h5 class="text-primary">
+                                <i class="bi bi-check-circle"></i> Gestión de Usuarios
+                            </h5>
+                            <ul>
+                                <li>Registro e inicio de sesión</li>
+                                <li>Perfil personalizable</li>
+                                <li>Gestión de información de contacto</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h5 class="text-primary">
+                                <i class="bi bi-check-circle"></i> Gestión de Libros
+                            </h5>
+                            <ul>
+                                <li>Carga individual de libros</li>
+                                <li>Carga masiva mediante Excel</li>
+                                <li>Edición y eliminación de libros</li>
+                                <li>Control de estado (disponible, prestado, no disponible)</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h5 class="text-primary">
+                                <i class="bi bi-check-circle"></i> Sistema de Préstamos
+                            </h5>
+                            <ul>
+                                <li>Registro de préstamos entre usuarios</li>
+                                <li>Historial completo de préstamos</li>
+                                <li>Gestión de devoluciones</li>
+                                <li>Comentarios en préstamos</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h5 class="text-primary">
+                                <i class="bi bi-check-circle"></i> Próximas Funcionalidades
+                            </h5>
+                            <ul>
+                                <li>Solicitudes de préstamo</li>
+                                <li>Notificaciones automáticas</li>
+                                <li>Comunidades de usuarios</li>
+                                <li>Búsquedas avanzadas con filtros</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Valores -->
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <h2 class="text-center mb-4">
+                <i class="bi bi-heart-fill text-danger"></i> Nuestros Valores
+            </h2>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-3 mb-4 text-center">
+            <i class="bi bi-heart-fill display-4 text-primary mb-3"></i>
+            <h5>Colaboración</h5>
+            <p class="text-muted">Creemos en el poder de compartir y colaborar</p>
+        </div>
+        <div class="col-md-3 mb-4 text-center">
+            <i class="bi bi-people-fill display-4 text-success mb-3"></i>
+            <h5>Comunidad</h5>
+            <p class="text-muted">Construimos conexiones a través de los libros</p>
+        </div>
+        <div class="col-md-3 mb-4 text-center">
+            <i class="bi bi-shield-check display-4 text-info mb-3"></i>
+            <h5>Confianza</h5>
+            <p class="text-muted">Fomentamos relaciones basadas en la confianza</p>
+        </div>
+        <div class="col-md-3 mb-4 text-center">
+            <i class="bi bi-lightbulb-fill display-4 text-warning mb-3"></i>
+            <h5>Innovación</h5>
+            <p class="text-muted">Mejoramos continuamente la experiencia</p>
+        </div>
+    </div>
+
+    <!-- Llamado a la Acción -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card bg-primary text-white shadow-lg border-0">
+                <div class="card-body text-center p-5">
+                    <h2 class="mb-4">
+                        <i class="bi bi-bookmark-heart"></i> ¿Listo para comenzar?
+                    </h2>
+                    <p class="lead mb-4">
+                        Únete a nuestra comunidad y comienza a compartir tus libros con otros lectores.
+                    </p>
+                    {% if not user.is_authenticated %}
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'registro' %}" class="btn btn-light btn-lg">
+                            <i class="bi bi-person-plus"></i> Registrarme
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'listar_libros' %}" class="btn btn-light btn-lg">
+                            <i class="bi bi-book"></i> Ver Libros
+                        </a>
+                        <a href="{% url 'cargar_libro' %}" class="btn btn-outline-light btn-lg">
+                            <i class="bi bi-plus-circle"></i> Agregar Libro
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información Adicional -->
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <i class="bi bi-info-circle text-primary fs-1 mb-2"></i>
+                            <h5>¿Necesitas Ayuda?</h5>
+                            <p class="text-muted mb-0">
+                                <a href="{% url 'preguntas_frecuentes' %}" class="text-decoration-none">
+                                    Consulta nuestras preguntas frecuentes
+                                </a>
+                            </p>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <i class="bi bi-github text-dark fs-1 mb-2"></i>
+                            <h5>Proyecto Open Source</h5>
+                            <p class="text-muted mb-0">
+                                Desarrollado con Django y Python
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="bi bi-arrow-repeat text-success fs-1 mb-2"></i>
+                            <h5>En Constante Evolución</h5>
+                            <p class="text-muted mb-0">
+                                Agregamos nuevas funcionalidades regularmente
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

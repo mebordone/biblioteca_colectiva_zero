@@ -5,7 +5,9 @@ import pytest
 from unittest.mock import patch
 from django.urls import reverse
 from django.contrib.auth.models import User
-from core.models import PasswordResetToken, Libro, Prestamo
+from usuarios.models import PasswordResetToken
+from libros.models import Libro
+from prestamos.models import Prestamo
 from django.utils import timezone
 from datetime import timedelta
 
@@ -145,7 +147,7 @@ class TestCambiarPasswordDesdePerfil:
         assert response.status_code == 200
         assert 'form' in response.context
     
-    @patch('core.auth_services.enviar_email_confirmacion_cambio')
+    @patch('usuarios.services.enviar_email_confirmacion_cambio')
     def test_post_request_changes_password(self, mock_email, client, user):
         """Test que cambia la contraseña inmediatamente y envía email de confirmación"""
         old_password = 'testpass123'

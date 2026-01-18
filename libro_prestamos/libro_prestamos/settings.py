@@ -31,7 +31,8 @@ environ.Env.read_env(os.path.join(BASE_DIR.parent, '.env'))
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-fallback-key-for-development-only')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG', default=False)
+# Por defecto True en desarrollo, False en producción
+DEBUG = env('DEBUG', default=True)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
@@ -90,6 +91,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "core",
+    "usuarios",
+    "libros",
+    "prestamos",
 ]
 
 MIDDLEWARE = [
@@ -170,7 +174,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# En desarrollo, Django busca archivos estáticos en estas ubicaciones
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+# En producción, STATIC_ROOT es donde se recopilan todos los archivos estáticos
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -184,18 +193,26 @@ LOGOUT_REDIRECT_URL = '/'
 # Email Configuration
 # Leer variables de entorno, con valores por defecto para desarrollo
 # Por defecto, en desarrollo se usa consola (los emails se muestran en la terminal)
-EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend' if DEBUG else 'django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
-EMAIL_PORT = env.int('EMAIL_PORT', default=587)
-EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER or 'noreply@bibliotecacolectiva.com')
-SERVER_EMAIL = DEFAULT_FROM_EMAIL
-
-# Si estamos en desarrollo, SIEMPRE usar consola (forzar para evitar problemas con SMTP)
+# En desarrollo, SIEMPRE usar el backend de consola UTF-8 para evitar problemas de codificación
+# IMPORTANTE: En desarrollo, forzar uso de consola incluso si EMAIL_BACKEND está en .env
 if DEBUG:
+    # Forzar backend de consola UTF-8 en desarrollo
     EMAIL_BACKEND = 'core.email_backends.UTF8ConsoleEmailBackend'
-    # Limpiar para asegurar que no se use SMTP
+    # Limpiar para asegurar que no se use SMTP en desarrollo
     EMAIL_HOST_USER = ''
     EMAIL_HOST_PASSWORD = ''
+    EMAIL_HOST = 'smtp.gmail.com'  # Solo para referencia, no se usa en desarrollo
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+else:
+    # En producción, usar el backend configurado en .env o SMTP por defecto
+    EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+    EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
+    EMAIL_PORT = env.int('EMAIL_PORT', default=587)
+    EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+
+# Configuración común
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER if not DEBUG else 'noreply@bibliotecacolectiva.com')
+SERVER_EMAIL = DEFAULT_FROM_EMAIL

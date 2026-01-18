@@ -5,7 +5,7 @@ import pytest
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.models import User
-from core.models import EmailChangeToken, Perfil
+from usuarios.models import EmailChangeToken, Perfil
 
 
 @pytest.fixture

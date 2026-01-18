@@ -5,15 +5,15 @@ import pytest
 from unittest.mock import patch, MagicMock
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
-from core.models import PasswordResetToken
-from core.utils import enviar_email_cambio_password, enviar_email_confirmacion_cambio
+from usuarios.models import PasswordResetToken
+from usuarios.utils import enviar_email_cambio_password, enviar_email_confirmacion_cambio
 
 
 @pytest.mark.django_db
 class TestEnviarEmailCambioPassword:
     """Tests para la función enviar_email_cambio_password"""
     
-    @patch('core.utils.EmailMessage')
+    @patch('usuarios.utils.EmailMessage')
     def test_envia_email_exitosamente(self, mock_email_message, user, password_reset_token):
         """Test que se envía el email correctamente"""
         mock_email_instance = mock_email_message.return_value
@@ -30,7 +30,7 @@ class TestEnviarEmailCambioPassword:
         assert user.email in call_args[1]['to']
         assert mock_email_instance.send.called
     
-    @patch('core.utils.EmailMessage')
+    @patch('usuarios.utils.EmailMessage')
     def test_maneja_error_de_envio(self, mock_email_message, user, password_reset_token):
         """Test que maneja errores de envío"""
         mock_email_instance = mock_email_message.return_value
@@ -40,11 +40,12 @@ class TestEnviarEmailCambioPassword:
         
         assert result == False
     
-    @patch('core.utils.render_to_string')
-    @patch('core.utils.send_mail')
-    def test_genera_url_correcta(self, mock_send_mail, mock_render, user, password_reset_token):
+    @patch('usuarios.utils.EmailMessage')
+    @patch('usuarios.utils.render_to_string')
+    def test_genera_url_correcta(self, mock_render, mock_email_message, user, password_reset_token):
         """Test que genera la URL correcta para el token"""
-        mock_send_mail.return_value = True
+        mock_email_instance = mock_email_message.return_value
+        mock_email_instance.send.return_value = None
         mock_render.return_value = '<html>Test</html>'
         
         enviar_email_cambio_password(user, password_reset_token)
@@ -70,7 +71,7 @@ class TestEnviarEmailCambioPassword:
 class TestEnviarEmailConfirmacionCambio:
     """Tests para la función enviar_email_confirmacion_cambio"""
     
-    @patch('core.utils.EmailMessage')
+    @patch('usuarios.utils.EmailMessage')
     def test_envia_email_confirmacion(self, mock_email_message, user):
         """Test que se envía email de confirmación"""
         mock_email_instance = mock_email_message.return_value
@@ -86,7 +87,7 @@ class TestEnviarEmailConfirmacionCambio:
         assert 'cambiada exitosamente' in call_args[1]['subject']
         assert user.email in call_args[1]['to']
     
-    @patch('core.utils.EmailMessage')
+    @patch('usuarios.utils.EmailMessage')
     def test_maneja_error_de_envio_confirmacion(self, mock_email_message, user):
         """Test que maneja errores en envío de confirmación"""
         mock_email_instance = mock_email_message.return_value

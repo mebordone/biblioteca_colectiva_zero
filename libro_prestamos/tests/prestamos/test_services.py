@@ -3,8 +3,9 @@ Tests para los servicios de lógica de negocio.
 """
 import pytest
 from django.contrib.auth.models import User
-from core.models import Libro, Prestamo
-from core.services import crear_prestamo_service, marcar_devuelto_service
+from libros.models import Libro
+from prestamos.models import Prestamo
+from prestamos.services import crear_prestamo_service, marcar_devuelto_service
 
 
 @pytest.mark.django_db

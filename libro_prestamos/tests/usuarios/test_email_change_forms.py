@@ -3,8 +3,8 @@ Tests para los formularios de cambio de email
 """
 import pytest
 from django.contrib.auth.models import User
-from core.forms import EmailChangeRequestForm, EmailChangeConfirmForm
-from core.models import Perfil
+from usuarios.forms import EmailChangeRequestForm, EmailChangeConfirmForm
+from usuarios.models import Perfil
 
 
 @pytest.fixture
