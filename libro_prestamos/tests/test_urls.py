@@ -3,7 +3,10 @@ Tests para las URLs de cambio de contraseña
 """
 import pytest
 from django.urls import reverse, resolve
-from core import views
+from usuarios import views as usuarios_views
+from libros import views as libros_views
+from prestamos import views as prestamos_views
+from core import views as core_views
 
 
 @pytest.mark.django_db
@@ -17,7 +20,7 @@ class TestPasswordURLs:
         
         # Verificar que resuelve a la vista correcta
         resolved = resolve(url)
-        assert resolved.func == views.solicitar_cambio_password
+        assert resolved.func == usuarios_views.solicitar_cambio_password
     
     def test_confirmar_cambio_password_url(self):
         """Test que la URL de confirmar cambio existe"""
@@ -27,7 +30,7 @@ class TestPasswordURLs:
         
         # Verificar que resuelve a la vista correcta
         resolved = resolve(url)
-        assert resolved.func == views.confirmar_cambio_password
+        assert resolved.func == usuarios_views.confirmar_cambio_password
     
     def test_cambiar_password_desde_perfil_url(self):
         """Test que la URL de cambiar desde perfil existe"""
@@ -36,7 +39,7 @@ class TestPasswordURLs:
         
         # Verificar que resuelve a la vista correcta
         resolved = resolve(url)
-        assert resolved.func == views.cambiar_password_desde_perfil
+        assert resolved.func == usuarios_views.cambiar_password_desde_perfil
     
     def test_solicitar_cambio_email_url(self):
         """Test que la URL de solicitar cambio de email existe"""
@@ -45,7 +48,7 @@ class TestPasswordURLs:
         
         # Verificar que resuelve a la vista correcta
         resolved = resolve(url)
-        assert resolved.func == views.solicitar_cambio_email
+        assert resolved.func == usuarios_views.solicitar_cambio_email
     
     def test_confirmar_cambio_email_url(self):
         """Test que la URL de confirmar cambio de email existe"""
@@ -55,7 +58,7 @@ class TestPasswordURLs:
         
         # Verificar que resuelve a la vista correcta
         resolved = resolve(url)
-        assert resolved.func == views.confirmar_cambio_email
+        assert resolved.func == usuarios_views.confirmar_cambio_email
         assert resolved.kwargs['token'] == token
     
     def test_cerrar_sesiones_todas_url(self):
@@ -65,4 +68,4 @@ class TestPasswordURLs:
         
         # Verificar que resuelve a la vista correcta
         resolved = resolve(url)
-        assert resolved.func == views.cerrar_sesiones_todas
+        assert resolved.func == usuarios_views.cerrar_sesiones_todas

@@ -4,7 +4,7 @@ Tests para los modelos relacionados con cambio de contraseña
 import pytest
 from django.utils import timezone
 from datetime import timedelta
-from core.models import PasswordResetToken
+from usuarios.models import PasswordResetToken
 from django.contrib.auth.models import User
 
 
