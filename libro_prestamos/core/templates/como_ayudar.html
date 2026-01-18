@@ -1,0 +1,406 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cómo Ayudar - Biblioteca Colectiva{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto text-center">
+            <h1 class="display-4 fw-bold text-primary mb-3">
+                <i class="bi bi-heart-handshake"></i> Cómo Ayudar a la Biblioteca Colectiva
+            </h1>
+            <p class="lead text-muted">
+                Este proyecto está comenzando y estamos lanzando una primera versión. 
+                Tu ayuda es fundamental para hacer crecer esta comunidad de lectores.
+            </p>
+        </div>
+    </div>
+
+    <!-- Introducción -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="alert alert-info border-0 shadow-sm">
+                <div class="d-flex align-items-start">
+                    <i class="bi bi-info-circle display-6 me-3 text-primary"></i>
+                    <div>
+                        <h4 class="alert-heading">¡Tu participación hace la diferencia!</h4>
+                        <p class="mb-0">
+                            La Biblioteca Colectiva está en sus primeros pasos y necesitamos tu ayuda para 
+                            mejorarla. Cada acción que realices, cada libro que compartas y cada sugerencia 
+                            que hagas nos ayuda a construir una mejor plataforma para todos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formas de Ayudar -->
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <h2 class="text-center mb-4">
+                <i class="bi bi-list-check text-primary"></i> Formas de Ayudar
+            </h2>
+        </div>
+    </div>
+
+    <!-- Usándola -->
+    <div class="row mb-4">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-play-circle display-4 text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3 class="card-title text-primary mb-3">
+                                <i class="bi bi-check-circle-fill text-success"></i> Usándola
+                            </h3>
+                            <p class="card-text fs-5">
+                                La mejor forma de ayudarnos es <strong>usando la plataforma activamente</strong>. 
+                                Cada vez que navegas, buscas libros o exploras las funcionalidades, nos ayudas a 
+                                entender cómo se utiliza el sistema y qué áreas necesitan mejoras.
+                            </p>
+                            <ul class="list-unstyled ms-3">
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-primary"></i> 
+                                    Explora el catálogo de libros disponibles
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-primary"></i> 
+                                    Navega por las diferentes secciones de la plataforma
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-primary"></i> 
+                                    Prueba todas las funcionalidades disponibles
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cargando Libros -->
+    <div class="row mb-4">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-book display-4 text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3 class="card-title text-success mb-3">
+                                <i class="bi bi-check-circle-fill text-success"></i> Cargando Libros
+                            </h3>
+                            <p class="card-text fs-5">
+                                <strong>Comparte tus libros</strong> con la comunidad. Cuantos más libros haya en 
+                                la plataforma, más útil será para todos. Puedes cargar libros de forma individual 
+                                o usar la carga masiva con Excel.
+                            </p>
+                            <ul class="list-unstyled ms-3">
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-success"></i> 
+                                    Agrega tus libros favoritos a tu biblioteca personal
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-success"></i> 
+                                    Usa la carga masiva para agregar muchos libros a la vez
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-success"></i> 
+                                    Mantén actualizado el estado de tus libros (disponible, prestado, etc.)
+                                </li>
+                            </ul>
+                            {% if user.is_authenticated %}
+                            <div class="mt-3">
+                                <a href="{% url 'cargar_libro' %}" class="btn btn-success">
+                                    <i class="bi bi-plus-circle"></i> Agregar Libro Ahora
+                                </a>
+                                <a href="{% url 'cargar_libros_masivo' %}" class="btn btn-outline-success">
+                                    <i class="bi bi-file-earmark-excel"></i> Carga Masiva
+                                </a>
+                            </div>
+                            {% else %}
+                            <div class="mt-3">
+                                <a href="{% url 'registro' %}" class="btn btn-success">
+                                    <i class="bi bi-person-plus"></i> Regístrate para Cargar Libros
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prestando Libros -->
+    <div class="row mb-4">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-share display-4 text-warning"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3 class="card-title text-warning mb-3">
+                                <i class="bi bi-check-circle-fill text-success"></i> Prestando Libros
+                            </h3>
+                            <p class="card-text fs-5">
+                                <strong>Presta tus libros</strong> a otros usuarios. El préstamo es el corazón 
+                                de la Biblioteca Colectiva. Cada préstamo crea una conexión y fortalece la comunidad.
+                            </p>
+                            <ul class="list-unstyled ms-3">
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-warning"></i> 
+                                    Presta libros a tus amigos y conocidos
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-warning"></i> 
+                                    Registra los préstamos en la plataforma
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-warning"></i> 
+                                    Mantén un registro de los libros que has prestado
+                                </li>
+                            </ul>
+                            {% if user.is_authenticated %}
+                            <div class="mt-3">
+                                <a href="{% url 'crear_prestamo' %}" class="btn btn-warning">
+                                    <i class="bi bi-share"></i> Prestar un Libro
+                                </a>
+                            </div>
+                            {% else %}
+                            <div class="mt-3">
+                                <a href="{% url 'registro' %}" class="btn btn-warning">
+                                    <i class="bi bi-person-plus"></i> Regístrate para Prestar Libros
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compartiendo con Otros -->
+    <div class="row mb-4">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-people display-4 text-info"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3 class="card-title text-info mb-3">
+                                <i class="bi bi-check-circle-fill text-success"></i> Compartiendo con Otros para Sumarse
+                            </h3>
+                            <p class="card-text fs-5">
+                                <strong>Invita a otros</strong> a unirse a la Biblioteca Colectiva. Cuantos más 
+                                usuarios tengamos, más libros habrá disponibles y más rica será la experiencia para todos.
+                            </p>
+                            <ul class="list-unstyled ms-3">
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-info"></i> 
+                                    Comparte el enlace de la plataforma con tus amigos lectores
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-info"></i> 
+                                    Habla sobre la Biblioteca Colectiva en tus redes sociales
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-info"></i> 
+                                    Invita a personas que aman los libros a unirse
+                                </li>
+                            </ul>
+                            <div class="mt-3">
+                                <button class="btn btn-info" onclick="copiarEnlace()">
+                                    <i class="bi bi-link-45deg"></i> Copiar Enlace para Compartir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anotando Problemas -->
+    <div class="row mb-4">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm border-0 h-100 border-danger">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-bug display-4 text-danger"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3 class="card-title text-danger mb-3">
+                                <i class="bi bi-check-circle-fill text-success"></i> Anotando Cosas que No Funcionan Bien
+                            </h3>
+                            <p class="card-text fs-5">
+                                <strong>Reporta problemas</strong> que encuentres. Si algo no funciona como esperabas, 
+                                si encuentras un error o si algo te resulta confuso, ¡háznoslo saber! Tu feedback 
+                                es esencial para mejorar la plataforma.
+                            </p>
+                            <ul class="list-unstyled ms-3">
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-danger"></i> 
+                                    Anota errores o comportamientos inesperados
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-danger"></i> 
+                                    Describe qué estabas haciendo cuando ocurrió el problema
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right-circle text-danger"></i> 
+                                    Indica qué navegador y dispositivo estás usando
+                                </li>
+                            </ul>
+                            <div class="alert alert-warning mt-3">
+                                <i class="bi bi-exclamation-triangle"></i> 
+                                <strong>Importante:</strong> Puedes reportar problemas en la sección de 
+                                "Comentarios y Sugerencias" más abajo.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comentarios y Sugerencias -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-lg border-0 bg-primary text-white">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-chat-dots display-1 mb-3"></i>
+                        <h2 class="mb-3">Comentarios y Sugerencias para Mejorar</h2>
+                        <p class="lead">
+                            Tu opinión es muy valiosa. Comparte tus ideas, sugerencias y comentarios 
+                            para ayudarnos a hacer la Biblioteca Colectiva aún mejor.
+                        </p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-white text-dark h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">
+                                        <i class="bi bi-lightbulb"></i> ¿Qué te gustaría mejorar?
+                                    </h5>
+                                    <p class="card-text">
+                                        ¿Hay alguna funcionalidad que te gustaría ver? 
+                                        ¿Algo que te resulta confuso? ¿Una característica que facilitaría tu experiencia?
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-white text-dark h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success">
+                                        <i class="bi bi-star"></i> ¿Qué te gusta?
+                                    </h5>
+                                    <p class="card-text">
+                                        ¿Qué aspectos de la plataforma te resultan útiles? 
+                                        ¿Qué funcionalidades disfrutas más?
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="alert alert-light">
+                            <h5 class="alert-heading">
+                                <i class="bi bi-envelope"></i> ¿Cómo Enviar tus Comentarios?
+                            </h5>
+                            <p class="mb-2">
+                                Por ahora, puedes enviar tus comentarios y sugerencias a través de:
+                            </p>
+                            <ul class="mb-0">
+                                <li>Contactando directamente al administrador del sistema</li>
+                                <li>Compartiendo tus ideas en las conversaciones sobre la plataforma</li>
+                                <li>Anotando tus observaciones mientras usas el sistema</li>
+                            </ul>
+                            <hr>
+                            <p class="mb-0">
+                                <strong>Nota:</strong> Estamos trabajando en implementar un sistema de 
+                                feedback integrado en la plataforma. ¡Mientras tanto, cualquier forma de 
+                                contacto es bienvenida!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resumen -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm border-0 bg-light">
+                <div class="card-body p-4 text-center">
+                    <h3 class="mb-3">
+                        <i class="bi bi-heart-fill text-danger"></i> ¡Gracias por tu Ayuda!
+                    </h3>
+                    <p class="lead mb-4">
+                        Cada acción que realizas, cada libro que compartes y cada sugerencia que haces 
+                        nos ayuda a construir una mejor Biblioteca Colectiva para todos.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'sobre_nosotros' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-info-circle"></i> Conoce Más Sobre Nosotros
+                        </a>
+                        <a href="{% url 'preguntas_frecuentes' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-question-circle"></i> Preguntas Frecuentes
+                        </a>
+                        {% if not user.is_authenticated %}
+                        <a href="{% url 'registro' %}" class="btn btn-primary">
+                            <i class="bi bi-person-plus"></i> Únete Ahora
+                        </a>
+                        {% else %}
+                        <a href="{% url 'listar_libros' %}" class="btn btn-primary">
+                            <i class="bi bi-search"></i> Explorar la Biblioteca
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copiarEnlace() {
+    const enlace = window.location.origin;
+    navigator.clipboard.writeText(enlace).then(function() {
+        alert('¡Enlace copiado al portapapeles! Compártelo con tus amigos.');
+    }, function(err) {
+        // Fallback para navegadores que no soportan clipboard API
+        const textArea = document.createElement('textarea');
+        textArea.value = enlace;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            alert('¡Enlace copiado al portapapeles! Compártelo con tus amigos.');
+        } catch (err) {
+            alert('No se pudo copiar el enlace. El enlace es: ' + enlace);
+        }
+        document.body.removeChild(textArea);
+    });
+}
+</script>
+{% endblock %}
