@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "anymail",  # Backend de email para APIs (Mailgun, SendGrid, etc.)
     "core",
     "usuarios",
     "libros",
@@ -195,6 +196,8 @@ LOGOUT_REDIRECT_URL = '/'
 # Por defecto, en desarrollo se usa consola (los emails se muestran en la terminal)
 # En desarrollo, SIEMPRE usar el backend de consola UTF-8 para evitar problemas de codificación
 # IMPORTANTE: En desarrollo, forzar uso de consola incluso si EMAIL_BACKEND está en .env
+# IMPORTANTE: En producción (especialmente PythonAnywhere), usar API HTTP de Mailgun en lugar de SMTP
+# porque PythonAnywhere bloquea conexiones SMTP salientes en planes gratuitos
 if DEBUG:
     # Forzar backend de consola UTF-8 en desarrollo
     EMAIL_BACKEND = 'core.email_backends.UTF8ConsoleEmailBackend'
@@ -205,14 +208,26 @@ if DEBUG:
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
 else:
-    # En producción, usar el backend configurado en .env o SMTP por defecto
-    EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-    EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
+    # En producción, usar la API HTTP de Mailgun (no SMTP)
+    # Esto es necesario para PythonAnywhere que bloquea SMTP saliente en planes gratuitos
+    # django-anymail permite usar la API HTTP de Mailgun
+    EMAIL_BACKEND = env('EMAIL_BACKEND', default='anymail.backends.mailgun.EmailBackend')
+    
+    # Configuración de Mailgun vía API (no SMTP)
+    ANYMAIL = {
+        "MAILGUN_API_KEY": env('MAILGUN_API_KEY', default=''),
+        "MAILGUN_SENDER_DOMAIN": env('MAILGUN_SENDER_DOMAIN', default=''),  # ej: mg.bibliotecacolectiva.com o sandboxXXXXX.mailgun.org
+        "MAILGUN_API_URL": env('MAILGUN_API_URL', default='https://api.mailgun.net/v3'),
+    }
+    
+    # Para compatibilidad con código que pueda usar variables SMTP antiguas
+    # (no se usan con API, pero las mantenemos por si acaso)
+    EMAIL_HOST = env('EMAIL_HOST', default='smtp.mailgun.org')
     EMAIL_PORT = env.int('EMAIL_PORT', default=587)
     EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
     EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
     EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 
 # Configuración común
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER if not DEBUG else 'noreply@bibliotecacolectiva.com')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@bibliotecacolectiva.com')
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
