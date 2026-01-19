@@ -121,20 +121,20 @@ El sistema está configurado para usar el backend de consola por defecto en desa
    ```
 5. Haz clic en **Reload** en la parte superior de la página
 
-### Opción 2: Archivo de Configuración (Menos Seguro)
+### Opción 3: Archivo de Configuración (Menos Seguro - No Recomendado)
 
-Si prefieres no usar variables de entorno:
+Si prefieres no usar variables de entorno (no recomendado):
 
 1. Crea un archivo `settings_production.py` en `libro_prestamos/libro_prestamos/`
-2. Agrega la configuración de email:
+2. Agrega la configuración de email (usando API de Mailgun):
    ```python
-   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-   EMAIL_HOST = 'smtp.gmail.com'
-   EMAIL_PORT = 587
-   EMAIL_USE_TLS = True
-   EMAIL_HOST_USER = 'bibliotecacolectivazero@gmail.com'
-   EMAIL_HOST_PASSWORD = 'tu_contraseña_de_aplicacion'
-   DEFAULT_FROM_EMAIL = 'bibliotecacolectivazero@gmail.com'
+   # Para PythonAnywhere - Usar API HTTP
+   EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+   ANYMAIL = {
+       "MAILGUN_API_KEY": "tu_api_key_de_mailgun",
+       "MAILGUN_SENDER_DOMAIN": "tu-dominio.mailgun.org",
+   }
+   DEFAULT_FROM_EMAIL = 'noreply@bibliotecacolectiva.com'
    ```
 3. Importa en `settings.py`:
    ```python
@@ -214,36 +214,58 @@ Si necesitas enviar más emails, considera usar un servicio profesional (ver sec
 
 Si no quieres lidiar con Gmail y verificación en 2 pasos, estos servicios son más fáciles de configurar:
 
-### SendGrid (Recomendado para empezar)
+### Mailgun (Recomendado para empezar)
 
 **Ventajas:**
-- ✅ Gratis hasta 100 emails/día
-- ✅ Fácil de configurar (solo necesitas una API Key)
+- ✅ Gratis hasta 100 emails/día (plan gratuito)
+- ✅ Fácil de configurar (solo necesitas API Key)
 - ✅ No requiere verificación en 2 pasos
+- ✅ API RESTful (HTTP/HTTPS) - compatible con PythonAnywhere
 - ✅ Buena documentación
+- ✅ Ideal para desarrollo y producción
+- ✅ **Funciona en PythonAnywhere** (usa API HTTP, no SMTP bloqueado)
+
+**⚠️ IMPORTANTE: PythonAnywhere y SMTP**
+- PythonAnywhere **bloquea conexiones SMTP salientes** en planes gratuitos
+- Por eso usamos la **API HTTP de Mailgun** en lugar de SMTP
+- El proyecto usa `django-anymail` que permite usar la API HTTP de Mailgun
 
 **Configuración:**
-1. Regístrate en [SendGrid](https://sendgrid.com/) (gratis)
-2. Ve a Settings → API Keys
-3. Crea una nueva API Key (guarda el valor, solo se muestra una vez)
-4. Configura en `.env`:
+1. Regístrate en [Mailgun](https://www.mailgun.com/) (plan gratuito disponible)
+2. Una vez registrado, ve a tu dashboard
+3. Selecciona tu dominio (o usa el dominio de prueba `sandbox` que viene por defecto)
+4. Ve a **Sending** → **API Keys**
+5. Copia tu **API Key** (o crea una nueva si prefieres)
+6. Anota tu **Sender Domain** (ej: `mg.bibliotecacolectiva.com` o `sandboxXXXXX.mailgun.org`)
+7. Configura en `.env`:
    ```env
-   EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-   EMAIL_HOST=smtp.sendgrid.net
-   EMAIL_PORT=587
-   EMAIL_USE_TLS=True
-   EMAIL_HOST_USER=apikey
-   EMAIL_HOST_PASSWORD=tu_api_key_de_sendgrid_aqui
+   # Para producción (PythonAnywhere) - Usa API HTTP, NO SMTP
+   EMAIL_BACKEND=anymail.backends.mailgun.EmailBackend
+   MAILGUN_API_KEY=tu_api_key_de_mailgun
+   MAILGUN_SENDER_DOMAIN=tu-dominio.mailgun.org
    DEFAULT_FROM_EMAIL=noreply@bibliotecacolectiva.com
    ```
-5. Verifica tu dominio o usa el email de verificación de SendGrid
+   **Nota:** Si usas el dominio sandbox de Mailgun, el formato será `sandboxXXXXX.mailgun.org` donde XXXXX es tu código de sandbox.
 
-### Mailgun
+8. Verifica tu dominio (opcional pero recomendado para producción) o usa el dominio sandbox para pruebas
 
-**Ventajas:**
-- Gratis hasta 5,000 emails/mes
-- API RESTful
-- Buena para desarrollo
+**Dominio Sandbox de Mailgun:**
+- Mailgun proporciona un dominio sandbox gratuito para pruebas
+- Puedes enviar emails a direcciones autorizadas (debes agregarlas en Mailgun)
+- Para producción, verifica tu propio dominio
+
+**Configuración Alternativa (SMTP - Solo si NO usas PythonAnywhere):**
+Si estás desplegando en otro servidor que SÍ permite SMTP, puedes usar:
+```env
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.mailgun.org
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=postmaster@tu-dominio.mailgun.org
+EMAIL_HOST_PASSWORD=tu_contraseña_smtp_de_mailgun
+DEFAULT_FROM_EMAIL=noreply@bibliotecacolectiva.com
+```
+Pero para PythonAnywhere, **debes usar la API HTTP** (configuración anterior).
 
 ### Amazon SES
 
@@ -251,6 +273,10 @@ Si no quieres lidiar con Gmail y verificación en 2 pasos, estos servicios son m
 - Muy económico ($0.10 por 1,000 emails)
 - Escalable
 - Requiere verificación de dominio
+
+### SendGrid (Ya no ofrece plan gratuito)
+
+**Nota:** SendGrid eliminó su plan gratuito. Si ya tienes una cuenta, puedes seguir usándola, pero para nuevos proyectos se recomienda Mailgun.
 
 ### Email del Dominio Propio
 
