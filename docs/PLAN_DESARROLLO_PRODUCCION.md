@@ -505,7 +505,7 @@ Antes de salir a producción, el sistema debe cumplir:
 ## Notas de Implementación
 
 ### Tecnologías Sugeridas:
-- **Email**: Django Email Backend (SMTP) o servicio como SendGrid/Mailgun
+- **Email**: Django Email Backend (SMTP) o servicio como Mailgun
 - **Autocompletado**: Select2 o similar
 - **Tareas programadas**: Celery + Redis o cron jobs
 - **Almacenamiento de imágenes**: Local para MVP, S3 para producción

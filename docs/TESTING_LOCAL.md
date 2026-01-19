@@ -147,7 +147,7 @@ Date: ...
 Una vez que hayas probado todo en local:
 
 1. **Para producción en PythonAnywhere:**
-   - Configura SendGrid (ver `CONFIGURACION_EMAIL.md`)
+   - Configura Mailgun (ver `CONFIGURACION_EMAIL.md`)
    - Agrega las variables de entorno en PythonAnywhere
    - Prueba el envío de emails reales
 

@@ -299,7 +299,7 @@ Antes de proponer código nuevo, el agente debe verificar:
 
 - Variables de entorno para toda configuración sensible
 - Debug desactivado
-- Emails reales configurados (SendGrid, SMTP, etc.)
+- Emails reales configurados (Mailgun, SMTP, etc.)
 - Base de datos de producción
 - HTTPS configurado
 - Logs apropiados
